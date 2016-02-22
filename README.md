@@ -5,7 +5,7 @@ This is a sample hotel review app boilerplate. This repository is setup for anyo
 1. Get current location and display all hotels nearby.
 2. Show the reviews of each hotel (Please find a open source API to get the reviews) and also show a photo gallery of each hotel
 3. Make sure this app is able to run on iOS or Android simulator
-4. Create a pull request into our Master branch (Please leave any instructions in the pull request comments).
+4. Create a pull request into our Master branch (Please leave any instructions in the pull request comment).
 
 You may add additional functionalities and styles to the app, is up to you to think and innovate.
 Fork a copy of this to your own repository and [email](mailto:liakwee.lee@mirumagency.com) us your forked link when you're done, DO NOT work directly here.
