@@ -141,7 +141,6 @@ gulp.task('scripts', function() {
 gulp.task('fonts', function() {
   return gulp
     .src(['app/fonts/*.*', 'bower_components/ionic/fonts/*.*'])
-
     .pipe(gulp.dest(path.join(targetDir, 'fonts')))
 
     .on('error', errorHandler);

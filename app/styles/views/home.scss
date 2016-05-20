@@ -5,3 +5,18 @@
 .content {
   padding: 1rem;
 }
+
+.price-tag {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  line-height: 15px;
+  p {
+    small{
+      font-size: 0.8em;
+    }
+    &.strike {
+      text-decoration: line-through;
+    }
+  }
+}

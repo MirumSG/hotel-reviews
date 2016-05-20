@@ -11,8 +11,10 @@
 
 
 angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize'])
-
-    .run(function($ionicPlatform) {
+    .constant('APP_CONFIG', {
+        TITLE: 'Hotel Reviews'
+    })
+    .run(['$ionicPlatform', function($ionicPlatform) {
 
         $ionicPlatform.ready(function() {
             // save to use plugins here
@@ -20,9 +22,9 @@ angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize']
 
         // add possible global event handlers here
 
-    })
+    }])
 
-    .config(function($httpProvider, $stateProvider, $urlRouterProvider) {
+    .config(['$httpProvider', '$stateProvider', '$urlRouterProvider', function($httpProvider, $stateProvider, $urlRouterProvider) {
         // register $http interceptors, if any. e.g.
         // $httpProvider.interceptors.push('interceptor-name');
 
@@ -39,18 +41,16 @@ angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize']
                 cache: true,
                 views: {
                     'viewContent': {
-                        templateUrl: 'templates/views/home.html',
-                        controller: 'HomeController'
+                        templateUrl: 'templates/views/home.html'
                     }
                 }
             })
-            .state('app.settings', {
-                url: '/settings',
+            .state('app.detail', {
+                url: '/detail/:id',
                 cache: true,
                 views: {
                     'viewContent': {
-                        templateUrl: 'templates/views/settings.html',
-                        controller: 'SettingsController'
+                        templateUrl: 'templates/views/detail.html'
                     }
                 }
             });
@@ -58,6 +58,6 @@ angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize']
 
         // redirects to default route for undefined routes
         $urlRouterProvider.otherwise('/app/home');
-    });
+    }]);
 
 

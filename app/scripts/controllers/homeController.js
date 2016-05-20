@@ -7,19 +7,42 @@
  * # HomeController
  */
 angular.module('HotelReview')
-    .controller('HomeController', function($scope, ExampleService) {
+    .controller('HomeController', ['$scope', 'ExampleService', 'APP_CONFIG', '$ionicPopover', '$log', function($scope, ExampleService, APP_CONFIG, $ionicPopover, $log) {
+        var ctrl = this;
+        ctrl.myHTML = null;
+        ctrl.title = APP_CONFIG.TITLE;
 
-        $scope.myHTML = null;
-
-        $scope.fetchRandomText = function() {
+        ctrl.fetchRandomText = function() {
             ExampleService.doSomethingAsync()
                 .then(ExampleService.fetchSomethingFromServer)
                 .then(function(response) {
-                    $scope.myHTML = response.data.text;
+                    ctrl.myHTML = response.data.text;
                     // close pull to refresh loader
                     $scope.$broadcast('scroll.refreshComplete');
                 });
         };
 
-        $scope.fetchRandomText();
-    });
+        ctrl.fetchRandomText();
+
+        $ionicPopover.fromTemplateUrl('filter-popover.html', {
+                scope: $scope
+              }).then(function(popover) {
+                $log.debug("Filter popover has opened");
+                $log.debug(popover)
+
+                ctrl.filterPopover = popover;
+              });
+
+        $ionicPopover.fromTemplateUrl('sort-popover.html', {
+                scope: $scope
+              }).then(function(popover) {
+                ctrl.sortPopover = popover;
+              });
+
+        ctrl.showFilter = function(e){
+            ctrl.filterPopover.show(e);
+        };
+        ctrl.showSort = function(e){
+            ctrl.sortPopover.show(e);
+        };
+    }]);

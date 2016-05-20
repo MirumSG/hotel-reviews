@@ -1,0 +1,20 @@
+.detail{
+  .slider-slides {
+    max-height: 150px;
+    ion-slide {
+      img {
+        width: 100%
+      }
+      p {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+      }
+      span {
+        position: absolute;
+        right: 0;
+        bottom: 10px;
+      }
+    }
+  }
+}
