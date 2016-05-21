@@ -1,0 +1,8 @@
+.button.button-icon {
+  &.button-icon-small {
+    &.icon-right::before,
+    &::before {
+      font-size: 22px;
+    }
+  }
+}

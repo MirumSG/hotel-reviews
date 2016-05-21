@@ -1,0 +1,20 @@
+
+.platform-android {
+  .bar.item-input-inset {
+    position: relative;
+    border-radius: 2px;
+    &.item-input-active {
+      background-color: #fff;
+    }
+    &:after {
+      position: absolute;
+      height: 1px;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+    .item-input-wrapper {
+      //background: transparent;
+      border-radius: 2px;
+    }
+  }
+}

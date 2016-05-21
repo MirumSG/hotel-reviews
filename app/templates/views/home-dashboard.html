@@ -1,0 +1,65 @@
+<ion-view view-title="Dashboard">
+
+	<!--<ion-nav-title class="title-complex">-->
+	<!--<div>-->
+	<!--<search-bar ng-if="searchCtrl.searchBarActive"></search-bar>-->
+	<!--<div-->
+	<!--ng-if="!searchCtrl.searchBarActive"-->
+	<!--class="title">Dashboard</div>-->
+	<!--</div>-->
+	<!--</ion-nav-title>-->
+
+	<ion-nav-buttons side="right">
+		<!--<button-->
+		<!--ng-click="searchCtrl.action.onSearchButtonClick()"-->
+		<!--class="button button-icon button-icon-small ion-android-search"></button>-->
+		<button
+			ng-click="action.onPickLocationClick()"
+			ng-disabled="activityStore.isUpdatingLocation"
+			class="button button-icon icon-right button-icon-small ion-android-locate"
+			ng-bind="activityStore.isUpdatingLocation?'Finding Location ':'Pick Location '">
+		</button>
+	</ion-nav-buttons>
+
+	<ion-content style="background-color: transparent">
+		<ion-refresher
+			pulling-text="Pull to refresh..."
+			on-refresh="action.onViewRefresh()">
+		</ion-refresher>
+
+		<div class="list">
+
+			<div class="item padding-none map-container">
+				<div g-map
+				     name="dashboardMap"
+				     on-map-ready="mapCtrl.onMapReady(mapCtrl.mapHandle)"
+				     location="mapCtrl.location"
+				     class="full-height full-width"></div>
+			</div>
+
+			<div
+				ng-if="!mapCtrl.location && searchResults.length==0"
+				class="item">
+				<p
+					ng-bind="::'Please Pick a location to view nearby hotels.'"
+					class="text-center"></p>
+			</div>
+
+			<div
+				ng-repeat="place in searchResults track by place.id | limitTo : 20"
+				ng-class="{'item-thumbnail-left':place.getPreviewPhotoUrl()}"
+				ng-click="action.onPlaceItemClick(place)"
+				class="item">
+				<h3
+					class="push-top inline push-bottom-none"
+					ng-bind="place.name"></h3>
+				<p ng-bind="place.vicinity"></p>
+				<img
+					ng-if="place.photos.length>0"
+					class="item-image rounded" src="{{place.getPreviewPhotoUrl()}}" alt="">
+			</div>
+		</div>
+
+	</ion-content>
+
+</ion-view>

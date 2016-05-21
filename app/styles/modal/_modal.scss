@@ -1,0 +1,25 @@
+@import "../layout/layout-attributes";
+
+.modal {
+  &.modal-view-clear {
+    background: transparent;
+  }
+}
+
+@media (max-width: $layout-breakpoint-sm - 1) {
+  .modal .modal-overlay-content {
+    min-height: 100vh;
+  }
+}
+
+@media (min-width: $layout-breakpoint-sm) {
+  .modal .modal-overlay-content {
+    min-height: 100%;
+  }
+}
+
+@media (min-width: $layout-breakpoint-sm) and (max-width: $layout-breakpoint-md - 1) {
+  .modal .modal-overlay-content {
+    min-height: 80vh;
+  }
+}

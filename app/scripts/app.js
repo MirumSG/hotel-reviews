@@ -10,11 +10,18 @@
  */
 
 
-angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize'])
+angular.module('HotelReview', [
+    'ionic',
+    'ngCordova',
+    'ngResource',
+    'ngSanitize',
+    'app.component.dialog',
+    'app.component.modal'
+])
 
-    .run(function($ionicPlatform) {
+    .run(function ($ionicPlatform) {
 
-        $ionicPlatform.ready(function() {
+        $ionicPlatform.ready(function () {
             // save to use plugins here
         });
 
@@ -22,7 +29,7 @@ angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize']
 
     })
 
-    .config(function($httpProvider, $stateProvider, $urlRouterProvider) {
+    .config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
         // register $http interceptors, if any. e.g.
         // $httpProvider.interceptors.push('interceptor-name');
 
@@ -39,7 +46,8 @@ angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize']
                 cache: true,
                 views: {
                     'viewContent': {
-                        templateUrl: 'templates/views/home.html',
+                        templateUrl: 'templates/views/home-dashboard.html',
+                        // templateUrl: 'templates/views/home.html',
                         controller: 'HomeController'
                     }
                 }

@@ -45,5 +45,13 @@
   },
   "scripts": {
     "gulp": "./node_modules/.bin/gulp"
-  }
+  },
+  "cordovaPlugins": [
+    "cordova-plugin-geolocation",
+    "cordova-plugin-whitelist"
+  ],
+  "cordovaPlatforms": [
+    "ios",
+    "android"
+  ]
 }
