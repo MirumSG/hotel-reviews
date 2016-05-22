@@ -8,11 +8,11 @@
  */
 angular.module('HotelReview')
     .controller('HomeController', [
-        '$scope', 'Dialog', '$timeout',
+        '$scope', 'Dialog', '$timeout', '$ionicScrollDelegate',
         'PlatformService', 'ApiService', 'MapService',
         'PlacePreviewService',
         'Location',
-        function ($scope, Dialog, $timeout
+        function ($scope, Dialog, $timeout, $ionicScrollDelegate
             , PlatformService, ApiService, MapService
             , PlacePreviewService
             , Location) {
@@ -25,6 +25,7 @@ angular.module('HotelReview')
 
             var map = null,
                 mapCenterMarker = null,
+                placeMarker = null,
                 _cleanupBucket = {};
 
             $scope.activityStore = {};
@@ -59,6 +60,18 @@ angular.module('HotelReview')
                 /*-----------------------*/
                 onPlaceItemClick: function (place) {
                     PlacePreviewService.showPreview(DASHBOARD_MAP_NAME, place);
+                },
+
+                showPlaceMarker: function (place) {
+                    console.log(place);
+                    $scope.action.selectLocation(place);
+                    placeMarker.setAnimation(google.maps.Animation.DROP);
+                },
+                selectLocation: function (place) {
+                    toggleSelectPlace(place);
+                    if (!place) {
+                        updateMapCenterMarker($scope.mapCtrl.location);
+                    }
                 }
             };
 
@@ -76,6 +89,11 @@ angular.module('HotelReview')
                 nearByParams: {
                     radius: 4000
                 }
+            };
+
+            $scope.placeCtrl = {
+                place: null,
+                placeDetails: null
             };
 
             $scope.searchResults = [];
@@ -126,6 +144,80 @@ angular.module('HotelReview')
 
             }
 
+
+            /**
+             * Update place marker
+             */
+            function updatePlaceMarker(place) {
+                if (!place) return;
+                var location = {
+                    lat: place.geometry.location.lat(),
+                    lng: place.geometry.location.lng()
+                };
+                _initPlaceMarker(location);
+                placeMarker.setOptions({
+                    position: {
+                        lat: location.lat,
+                        lng: location.lng
+                    }
+                });
+                map.panTo(location)
+
+            }
+
+            function toggleSelectPlace(place) {
+                if (place) {
+                    $scope.placeCtrl.place = place;
+                    loadPlaceDetails($scope.mapCtrl.location, place);
+                    updatePlaceMarker(place);
+                    _bringMapintoView();
+                } else {
+                    $scope.placeCtrl.place = null;
+                }
+            }
+
+            function _bringMapintoView() {
+                $ionicScrollDelegate.$getByHandle('dashboardScroll').scrollTop();
+            }
+
+            function loadPlaceDetails(currentLocation, place) {
+
+                var location1 = currentLocation,
+                    location2 = {
+                        lat: place.geometry.location.lat(),
+                        lng: place.geometry.location.lng()
+                    }
+                    ;
+
+
+                ApiService.getDistance(location1, location2)
+                    .then(function (distanceResults) {
+                        console.log(distanceResults);
+                        $scope.placeCtrl.selectedPlaceDistanceResult = distanceResults[0];
+                    })
+            }
+
+            /**
+             * Initialize place marker
+             * */
+            function _initPlaceMarker(location) {
+                if (placeMarker) return;
+                else {
+                    placeMarker = new google.maps.Marker(
+                        {
+                            position: {
+                                lat: location.lat,
+                                lng: location.lng
+                            },
+                            map: map,
+                            draggable: false,
+                        });
+                }
+            }
+
+            /**
+             * Initialize user location marker
+             * */
             function _initMapCenterMarker(location) {
                 if (mapCenterMarker) {
                     return;
@@ -168,7 +260,7 @@ angular.module('HotelReview')
              * Update nearby hotels list
              * */
             function updateNearByHotels(location, searchRadius) {
-                if(!location) {
+                if (!location) {
                     $scope.$broadcast('scroll.refreshComplete');
                 }
                 return ApiService.findHotelsNearBy(DASHBOARD_MAP_NAME, location, {

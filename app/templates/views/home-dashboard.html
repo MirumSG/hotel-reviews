@@ -16,12 +16,67 @@
 		<button
 			ng-click="action.onPickLocationClick()"
 			ng-disabled="activityStore.isUpdatingLocation"
-			class="button button-icon icon-right button-icon-small ion-android-locate"
-			ng-bind="activityStore.isUpdatingLocation?'Finding Location ':'Pick Location '">
+			class="button button-icon icon-right button-icon-small ion-android-locate">
+		</button>
+		<button
+			ng-click=""
+			ng-disabled="activityStore.isUpdatingLocation"
+			class="button button-icon icon-right button-icon-small ion-android-options">
 		</button>
 	</ion-nav-buttons>
 
-	<ion-content style="background-color: transparent">
+	<ion-header-bar class="bar-subheader item-input-inset">
+		<label class="item-input-wrapper">
+			<i class="icon ion-ios-search placeholder-icon"></i>
+			<input type="search" placeholder="Search Location">
+			<button class="button button-clear button-icon-small ion-android-close">
+			</button>
+		</label>
+		<button class="button button-clear button-icon-small ion-android-search">
+		</button>
+	</ion-header-bar>
+
+	<ion-footer-bar
+		ng-if="placeCtrl.place"
+		class="footer-tall md-whiteframe-8dp md-whiteframe-top">
+		<div class="full-width list list-borderless no-margin">
+			<div
+				class="item item-button-right padding-top">
+				<h2
+					ng-click="action.onPlaceItemClick(placeCtrl.place)"
+					ng-bind="placeCtrl.place.name"></h2>
+				<div
+					ng-click="action.onPlaceItemClick(placeCtrl.place)"
+					layout="row">
+
+					<!-- Distance Info -->
+					<div style="width: 90px;">
+						<h1 class="no-margin">
+							<small ng-bind="placeCtrl.selectedPlaceDistanceResult.distance"></small>
+						</h1>
+						<div ng-bind="placeCtrl.selectedPlaceDistanceResult.duration"></div>
+					</div>
+
+					<!-- From - To - info -->
+					<div class="push-top overflow-hidden" flex>
+						<p class="text-overflow-ellipsis">
+							<i class="icon ion-ios-home"></i>
+							<span ng-bind="placeCtrl.selectedPlaceDistanceResult.from"></span>
+						</p>
+						<p class="text-overflow-ellipsis">
+							<i class="icon ion-android-locate"></i>
+							<span ng-bind="placeCtrl.selectedPlaceDistanceResult.to"></span>
+						</p>
+					</div>
+				</div>
+				<div
+					ng-click="action.selectLocation(false)"
+					class="button button-icon ion-android-close button-icon-small"></div>
+			</div>
+		</div>
+	</ion-footer-bar>
+
+	<ion-content delegate-handle="dashboardScroll">
 		<ion-refresher
 			pulling-text="Pull to refresh..."
 			on-refresh="action.onViewRefresh()">
@@ -47,16 +102,35 @@
 
 			<div
 				ng-repeat="place in searchResults track by place.id | limitTo : 20"
-				ng-class="{'item-thumbnail-left':place.getPreviewPhotoUrl()}"
-				ng-click="action.onPlaceItemClick(place)"
-				class="item">
-				<h3
-					class="push-top inline push-bottom-none"
-					ng-bind="place.name"></h3>
-				<p ng-bind="place.vicinity"></p>
-				<img
-					ng-if="place.photos.length>0"
-					class="item-image rounded" src="{{place.getPreviewPhotoUrl()}}" alt="">
+				ng-class="{'item-avatar-left':!place.getPreviewPhotoUrl(), 'item-thumbnail-left':place.getPreviewPhotoUrl()}"
+				class="item item-button-right">
+				<div class="overflow-hidden"
+				     ng-click="action.onPlaceItemClick(place)">
+					<h3
+						class="push-top inline push-bottom-none"
+						ng-bind="place.name"></h3>
+					<p ng-bind="place.vicinity"></p>
+					<p ng-show="place.rating"
+					   ng-bind="place.rating + ' stars'"></p>
+				</div>
+				<div layout="column" layout-align="start center"
+				     ng-class="{'item-image': place.getPreviewPhotoUrl()}"
+				     class="rounded">
+					<img
+						ng-click="action.onPlaceItemClick(place)"
+						class="rounded"
+						ng-class="{'item-image': !place.getPreviewPhotoUrl()}"
+						src="{{place.getPreviewPhotoUrl() || place.icon}}" alt="">
+					<div
+						ng-if="getPreviewPhotoUrl()"
+						class="item-image-avatar-overlay">
+						<img
+							src="{{place.icon}}" alt="">
+					</div>
+				</div>
+				<button
+					ng-click="action.showPlaceMarker(place)"
+					class="button button-icon push-top ion-pin color-light-2"></button>
 			</div>
 		</div>
 

@@ -81,8 +81,52 @@ angular.module('HotelReview')
                     });
                     return deferred.promise;
                 },
-                getEndpoint: function () {
-                    return endpoint;
+
+                getDistance: function (location1, location2) {
+                    var deferred = $q.defer();
+                    var origin1 = new google.maps.LatLng(location1.lat, location1.lng);
+                    var destination1 = new google.maps.LatLng(location2.lat, location2.lng);
+
+                    var service = new google.maps.DistanceMatrixService();
+                    service.getDistanceMatrix(
+                        {
+                            origins: [origin1],
+                            destinations: [destination1],
+                            travelMode: google.maps.TravelMode.DRIVING,
+                            // transitOptions: TransitOptions,
+                            // drivingOptions: DrivingOptions,
+                            unitSystem: google.maps.UnitSystem.METRIC
+                        }, callback);
+
+                    function callback(response, status) {
+                        if (status == google.maps.DistanceMatrixStatus.OK) {
+                            var origins = response.originAddresses;
+                            var destinations = response.destinationAddresses;
+
+                            var resultList = [];
+
+                            for (var i = 0; i < origins.length; i++) {
+                                var results = response.rows[i].elements;
+                                for (var j = 0; j < results.length; j++) {
+                                    var element = results[j];
+
+                                    resultList[j] = {
+                                        distance: element.distance.text,
+                                        duration: element.duration.text,
+                                        from: origins[i],
+                                        to: destinations[j]
+                                    };
+                                }
+                            }
+
+                            deferred.resolve(resultList);
+                        }
+                        else {
+                            deferred.reject(status);
+                        }
+                    }
+
+                    return deferred.promise;
                 }
             };
 
