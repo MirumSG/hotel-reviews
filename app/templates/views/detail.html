@@ -1,27 +1,67 @@
 <ion-view ng-controller="DetailController as detail">
-    <ion-nav-bar class="bar-positive">
-      <ion-nav-back-button></ion-nav-back-button>
-      <ion-nav-title ng-bind="detail.title"></ion-nav-title>
-    </ion-nav-bar>
+  <ion-nav-bar class="bar-positive">
+    <ion-nav-back-button></ion-nav-back-button>
+    <ion-nav-title ng-bind="::detail.hotel.name"></ion-nav-title>
+  </ion-nav-bar>
 
-    <ion-content class="detail">
+  <ion-content class="detail">
+    <div class="loader" ng-if="!detail.hotel">
+        <ion-spinner></ion-spinner>
+    </div>
+    <div ng-if="detail.hotel === false">Invalid Hotel</div>
+    <section ng-if="detail.hotel">
       <ion-slide-box>
-        <ion-slide>
-          <img src="http://placehold.it/300x300" />
-          <p>Waiting Room</p>
-          <span>1/3</span>
-        </ion-slide>
-        <ion-slide>
-          <img src="http://placehold.it/300x300" />
-          <p>Waiting Room</p>
-          <span>2/3</span>
-        </ion-slide>
-        <ion-slide>
-          <img src="http://placehold.it/300x300" />
-          <p>Waiting Room</p>
-          <span>3/3</span>
+        <ion-slide ng-repeat="photo in detail.hotel.photos">
+          <img ng-src="{{photo.photo_reference | fetchphoto}}" ng-if="photo && photo.photo_reference" />
+          <span>{{$index+1}}/{{detail.hotel.photos.length}}</span>
         </ion-slide>
       </ion-slide-box>
-    </ion-content>
+      <div class="hotel-info">
+        <h4 ng-bind="::detail.hotel.name"></h4>
+        <div ng-if="detail.hotel.rating" ui-rating="{{::detail.hotel.rating}}"></div>
+      </div>
+      <div class="button-bar save_and_share">
+        <a class="button button-outline button-positive" ng-click="detail.saveHotel()" ng-disabled="detail.savedHotels.indexOf(detail.hotel.place_id) > -1">Save</a>
+        <a class="button button-outline button-positive" ng-click="detail.shareHotel()">Share</a>
+      </div>
+      <ui-gmap-google-map center='detail.map.center' zoom='detail.map.zoom'>
+        <ui-gmap-marker coords="detail.map.marker.coords" idkey="detail.map.marker.id">
+        </ui-gmap-marker>
+      </ui-gmap-google-map>
+      <section class="hotel-address">
+        <div class="list">
+          <a class="item item-icon-left" href="#">
+            <i class="icon ion-earth"></i>
+            {{::detail.hotel.vicinity}}
+          </a>
+          <a class="item item-icon-left" ng-href="{{::detail.hotel.website}}" target="_blank">
+            <i class="icon ion-email"></i>
+            {{::detail.hotel.website | getdomain}}
+          </a>
+          <a class="item item-icon-left" href="#">
+            <i class="icon ion-ios-telephone"></i>
+            {{::detail.hotel.international_phone_number}}
+          </a>
+          <div class="item item-divider">
+            Reviews
+          </div>
+        </div>
+      </section>
+      <section class="hotel-reviews">
+        <div class="list card" ng-repeat="review in detail.hotel.reviews">
 
+          <div class="item item-avatar">
+            <img ng-src="{{ review.profile_photo_url | authorprofile }}">
+            <h2 ng-bind="::review.author_name"></h2>
+            <small ng-bind="::review.time|fromNow"></small>
+          </div>
+
+          <div class="item item-body">
+            <div ng-if="review.rating" ui-rating="{{::review.rating}}"></div>
+            <p ng-bind="::review.text"></p>
+          </div>
+        </div>
+      </section>
+    </section>
+  </ion-content>
 </ion-view>

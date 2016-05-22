@@ -1,9 +1,9 @@
 .detail{
   .slider-slides {
-    max-height: 150px;
     ion-slide {
+      max-height: 200px;
       img {
-        width: 100%
+        width: 100%;
       }
       p {
         position: absolute;
@@ -14,7 +14,40 @@
         position: absolute;
         right: 0;
         bottom: 10px;
+        color: #ffffff;
+        font-weight: bold;
       }
     }
+  }
+  .save_and_share .button {
+    line-height: 32px;
+    min-height: 32px;
+    font-size: 13px;
+  }
+  .angular-google-map-container { height: 300px; }
+  .hotel-reviews {
+    .card {
+      margin: 3px;
+    }
+  }
+  .hotel-info {
+    margin: 8px;
+  }
+  .hotel-info, .hotel-reviews {
+    h4 {
+      font-weight: normal;
+    }
+    span {
+      font-weight: bold;
+    }
+  }
+  .hotel-address {
+    .item{
+      font-size: 14px;
+      i {
+        font-size: 20px;
+      }
+    }
+    
   }
 }
