@@ -1,5 +1,5 @@
 # Hotel Review App
-This is a sample hotel review app boilerplate. This repository is setup for anyone to show us your skills in AngularJS, Javascript and mobile development.
+Sample hotel review app by Kyaw Zaw Win
 
 ### Basic Requirements
 1. Get current location and display all hotels nearby.
@@ -13,5 +13,27 @@ Fork a copy of this to your own repository and do a pull request into this repos
 ##### This project is a clone from Ionic Gulp Seed project:
 https://github.com/tmaximini/ionic-gulp-seed
 
+##### Instruction
 
+1. npm install
+2. bower install
+3. cordova platform add android/ios
+4. cordova emulate android
 
+##### Notes
+
+- Google map has 1000 requests/day api limit
+
+##### Features
+
+- Neaby Hotel Listing based on GeoLocation
+- Bookmarking hotel
+- Native Social Sharing
+- Hotel Review
+
+##### Technical
+
+- Cordova 5
+- 1 Hour cache
+- Modefied seed code for better injection to avoid injection issue with minification
+- Configurable Google place API wrapper
