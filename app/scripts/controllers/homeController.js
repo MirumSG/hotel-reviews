@@ -26,7 +26,7 @@ angular.module('HotelReview')
         this.lng = 103.8535033;
 
         this.loadHotels = function(){
-            $log.debug("Loading hotels " + ctrl.lat + ' - ' + ctrl.lng + ' - ' + ctrl.nextPageToken);
+            $log.debug('Loading hotels ' + ctrl.lat + ' - ' + ctrl.lng + ' - ' + ctrl.nextPageToken);
             GPlace
               .findNearByHotels(ctrl.lat, ctrl.lng, 400, false, ctrl.nextPageToken)
               .then(function(data) {
@@ -43,7 +43,7 @@ angular.module('HotelReview')
                 }
                 if(ctrl.filter.rating){
                     originalHotels = _.filter(originalHotels, function(hotel){
-                        console.log(ctrl.filter.rating + " === " + hotel.rating);
+                        console.log(ctrl.filter.rating + ' === ' + hotel.rating);
                         return hotel.rating >= ctrl.filter.rating;
                     });
                 }
@@ -54,12 +54,12 @@ angular.module('HotelReview')
                 }
 
                 if(ctrl.sort){
-                    if(ctrl.sort == 1){
-                        originalHotels = _.sortBy(originalHotels, "price");
-                    }else if(ctrl.sort == 2){
-                        originalHotels = _.sortBy(originalHotels, "price").reverse();
-                    }else if(ctrl.sort == 3){
-                        originalHotels = _.sortBy(originalHotels, "rating").reverse();
+                    if(ctrl.sort === 1){
+                        originalHotels = _.sortBy(originalHotels, 'price');
+                    }else if(ctrl.sort === 2){
+                        originalHotels = _.sortBy(originalHotels, 'price').reverse();
+                    }else if(ctrl.sort === 3){
+                        originalHotels = _.sortBy(originalHotels, 'rating').reverse();
                     }
                 }
                 ctrl.hotels = angular.copy(originalHotels);
@@ -76,6 +76,7 @@ angular.module('HotelReview')
               ctrl.lng = position.coords.longitude;
               ctrl.loadHotels();
             }, function(err) {
+                $log.debug(err);
               // cannot get geolocation, use bugis as default
               $ionicPopup.show({
                 'template': '<p>Cannot get location. Bugis place is default</p>',
@@ -93,8 +94,8 @@ angular.module('HotelReview')
         $ionicPopover.fromTemplateUrl('filter-popover.html', {
             scope: $scope
         }).then(function(popover) {
-            $log.debug("Filter popover has opened");
-            $log.debug(popover)
+            $log.debug('Filter popover has opened');
+            $log.debug(popover);
 
             ctrl.filterPopover = popover;
         });
@@ -119,10 +120,12 @@ angular.module('HotelReview')
             this.filterPopover.hide();
         };
         this.setFilterRating = function(rating) {
-            if(this.filter.rating == rating)
+            if(this.filter.rating === rating){
                 this.filter.rating = 0;
-            else
+            }
+            else{
                 this.filter.rating = rating;
+            }
         };
         this.applySort = function(sortby){
             this.sort = sortby;

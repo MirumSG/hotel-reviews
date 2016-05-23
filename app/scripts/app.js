@@ -28,7 +28,8 @@ angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize',
         // register $http interceptors, if any. e.g.
         // $httpProvider.interceptors.push('interceptor-name');
         $localStorageProvider.setKeyPrefix('hotelreview_win');
-        GPlaceProvider.setAPIKey('AIzaSyASfWpP5Cl-uhJpLfepl54pRRRHTuYT2wc');
+        //GPlaceProvider.setAPIKey('AIzaSyASfWpP5Cl-uhJpLfepl54pRRRHTuYT2wc');
+        GPlaceProvider.setAPIKey('AIzaSyDape0jV390rLykygSVTSEJAlXADBGNCFQ');
         angular.extend(CacheFactoryProvider.defaults, { maxAge: 60 * 60 * 1000 });
         // Application routing
         $stateProvider
@@ -77,17 +78,17 @@ angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize',
             restrict: 'A',
             scope: {},
             link: function(scope, ele, attrs){
-                $log.debug("ui rating attribute has been linked");
+                $log.debug('ui rating attribute has been linked');
                 // 1, .5, 0, max 5
                 var max = 5;
                 scope.rating = 0;
                 scope.stars = [];
                 attrs.$observe('uiRating', function(rating){
-                    $log.debug("ui rating attribute has been triggered");
+                    $log.debug('ui rating attribute has been triggered');
                     $log.debug(rating);
                     scope.rating = rating;
 
-                    for(var i = 1; i<= 5; i++){
+                    for(var i = 1; i<= max; i++){
                         if(rating >= i){
                             scope.stars.push('ion-ios-star');
                         }else if((i - rating) < 1){
@@ -98,38 +99,44 @@ angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize',
                     }
                 });
             }
-
-        }
+        };
     }])
     .filter('fetchphoto', ['$sce', 'GPlace', function($sce, GPlace){
         return function(photoreference){
             return $sce.trustAsResourceUrl(GPlace.getPhotoUrl(photoreference));
-        }
+        };
     }])
     .filter('getdomain', [function(){
         return function(input) {
             var matches,
-                output = "",
+                output = '',
                 urls = /\w+:\/\/([\w|\.]+)/;
 
             matches = urls.exec(input);
 
-            if (matches !== null) output = matches[1];
+            if (matches !== null) {
+                output = matches[1];
+            }
 
             return output;
         };
     }])
-    .filter('authorprofile', ['$sce', function($sce){
+    .filter('authorprofile', ['$sce', '_', function($sce, _){
         return function(input){
             //default google plus profile
-            if(!input) input = 'https://lh3.googleusercontent.com/-PJNxC4CI3XA/AAAAAAAAAAI/AAAAAAAAAAA/fEFYN6-5frg/s120-c/photo.jpg';
+            if(!input) {
+                input = 'https://lh3.googleusercontent.com/-PJNxC4CI3XA/AAAAAAAAAAI/AAAAAAAAAAA/fEFYN6-5frg/s120-c/photo.jpg';
+            }
+            if(_.startsWith(input, '//')){
+                input = 'https:' + input;
+            }
             return $sce.trustAsResourceUrl(input);
-        }
+        };
     }])
     .filter('fromNow', ['moment', function(moment){
         return function(input){
             return moment.unix(input).fromNow();
-        }
+        };
     }])
     ;
 

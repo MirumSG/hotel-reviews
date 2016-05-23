@@ -8,7 +8,6 @@
  */
 angular.module('HotelReview')
     .controller('SavedController', ['$scope', 'APP_CONFIG', '$log', '$localStorage', function($scope, APP_CONFIG, $log, $localStorage) {
-        var ctrl = this;
         this.hotels = false;
         this.title = APP_CONFIG.TITLE + ' - Saved';
 
