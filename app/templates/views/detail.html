@@ -6,7 +6,7 @@
 
   <ion-content class="detail">
     <div class="loader" ng-if="!detail.hotel">
-        <ion-spinner></ion-spinner>
+      <ion-spinner></ion-spinner>
     </div>
     <div ng-if="detail.hotel === false">Invalid Hotel</div>
     <section ng-if="detail.hotel">
@@ -21,7 +21,7 @@
         <div ng-if="detail.hotel.rating" ui-rating="{{::detail.hotel.rating}}"></div>
       </div>
       <div class="button-bar save_and_share">
-        <a class="button button-outline button-positive" ng-click="detail.saveHotel()" ng-disabled="detail.savedHotels.indexOf(detail.hotel.place_id) > -1">Save</a>
+        <a class="button button-outline button-positive" ng-click="detail.saveHotel(e)" ng-disabled="detail.savedHotels.indexOf(detail.hotel.place_id) > -1">Save</a>
         <a class="button button-outline button-positive" ng-click="detail.shareHotel()">Share</a>
       </div>
       <ui-gmap-google-map center='detail.map.center' zoom='detail.map.zoom'>

@@ -1,97 +1,99 @@
 <ion-view ng-controller="HomeController as home">
-    <ion-header-bar align-title="center" class="bar-positive">
-    <button class="button button-icon icon ion-navicon" menu-toggle="left"></button>
-        <h1 class="title" ng-bind="home.title"></h1>
-    </ion-header-bar>
-    <div class="bar bar-subheader">
-        <div class="button-bar">
-          <a class="button button-clear border-right" ng-click="home.showFilter($event)">Filter</a>
-          <a class="button button-clear" ng-click="home.showSort($event)">Sort</a>
-        </div>
+  <ion-header-bar align-title="center" class="bar-positive">
+  <button class="button button-icon icon ion-navicon" menu-toggle="left"></button>
+    <h1 class="title" ng-bind="home.title"></h1>
+  </ion-header-bar>
+  <div class="bar bar-subheader">
+    <div class="button-bar filter_and_sort">
+      <a class="button button-clear icon ion-funnel border-right button-small" ng-click="home.showFilter($event)">Filter</a>
+      <a class="button button-clear icon fa fa-sort fa-2x" ng-click="home.showSort($event)">Sort</a>
     </div>
-    <ion-content class="has-subheader">
-        <div class="loader" ng-if="!home.hotels">
-            <ion-spinner></ion-spinner>
+  </div>
+  <ion-content class="has-subheader">
+    <div class="loader" ng-if="!home.hotels">
+      <ion-spinner></ion-spinner>
+    </div>
+    <div class="list" ng-if="home.hotels && home.hotels.length > 0">
+      <a class="item item-thumbnail-left" ui-sref="app.detail({id: hotel.place_id})" ng-repeat="hotel in home.hotels">
+        <img ng-src="{{hotel.photos[0].photo_reference | fetchphoto}}" ng-if="hotel.photos && hotel.photos.length > 0 && hotel.photos[0].photo_reference" />
+        <h2 ng-bind="::hotel.name"></h2>
+        <p ng-if="hotel.rating" ui-rating="{{::hotel.rating}}"></p>
+        <p ng-if="hotel.rating">{{::hotel.rating | number:0}}-star hotel</p>
+        <p ng-bind="::hotel.vicinity"></p>
+        <div class="discounted_percentage" ng-if="hotel.discount">
+          <div class="discounted_percentage_background"></div>
+          <span class="discounted_percentage_amount" ng-bind="::hotel.discount + '%'"></span>
         </div>
-        <div class="list" ng-if="home.hotels && home.hotels.length > 0">
-            <a class="item item-thumbnail-left" ui-sref="app.detail({id: hotel.place_id})" ng-repeat="hotel in home.hotels">
-              <img ng-src="{{hotel.photos[0].photo_reference | fetchphoto}}" ng-if="hotel.photos && hotel.photos.length > 0 && hotel.photos[0].photo_reference" />
-              <h2 ng-bind="::hotel.name"></h2>
-              <p ng-if="hotel.rating" ui-rating="{{::hotel.rating}}"></p>
-              <p>{{::hotel.rating | number:0}}-star hotel</p>
-              <p ng-bind="::hotel.vicinity"></p>
-              <div class="discounted_percentage" ng-if="hotel.discount">
-                <div class="discounted_percentage_background"></div>
-                <span class="discounted_percentage_amount" ng-bind="::hotel.discount + '%'"></span>
-              </div>
-              <div class="price-tag" ng-if="hotel.price">
-                <p class="discounted_price"><small>SGD</small>&nbsp;<span ng-bind="::hotel.price"></span></p>
-                <p class="strike" ng-if="hotel.original_price"><small>SGD</small>&nbsp;<span ng-bind="::hotel.original_price"></span></p>
-              </div>
-            </a>
+        <div class="price-tag" ng-if="hotel.price">
+          <p class="discounted_price"><small>SGD</small>&nbsp;<span ng-bind="::hotel.price"></span></p>
+          <p class="strike" ng-if="hotel.original_price"><small>SGD</small>&nbsp;<span ng-bind="::hotel.original_price"></span></p>
         </div>
-        <ion-infinite-scroll
-          ng-if="home.moreHotelCanBeLoaded"
-          icon="ion-loading-c"
-          on-infinite="home.loadHotels()">
-        </ion-infinite-scroll>
-        <div ng-if="home.hotels && home.hotels.length < 1" class="label text-center">
-          There is no hotel nearby.
-        </div>
-    </ion-content>
+      </a>
+    </div>
+    <ion-infinite-scroll
+      ng-if="home.moreHotelCanBeLoaded"
+      icon="ion-loading-c"
+      on-infinite="home.loadHotels()">
+    </ion-infinite-scroll>
+    <div ng-if="home.hotels && home.hotels.length < 1" class="label text-center">
+      There is no hotel nearby.
+    </div>
+  </ion-content>
 
-    <script id="filter-popover.html" type="text/ng-template">
-      <ion-popover-view class="popover-filter">
-        <ion-content>
-          <div class="list">
-            <div class="item item-divider">
-              Filters
-            </div>
-            <label class="item item-input">
-              <input type="text" placeholder="By hotel name" ng-model="home.filter.name">
-            </label>
-            <div class="item">
-              <p ng-if="home.filter.rating && home.filter.rating > 0" class="rating-filter">Rating score {{home.filter.rating}} or higher</p>
-              <p ng-if="!home.filter.rating || home.filter.rating < 1" class="rating-filter">All Rating score</p>
-              <div class="button-bar rating-bar">
-                <button class="button button-small icon-right ion-ios-star ui-rating" ng-class="{active: home.filter.rating == 1}" ng-click="home.setFilterRating(1)">1</button>
-                <button class="button button-small icon-right ion-ios-star ui-rating" ng-class="{active: home.filter.rating == 2}" ng-click="home.setFilterRating(2)">2</button>
-                <button class="button button-small icon-right ion-ios-star ui-rating" ng-class="{active: home.filter.rating == 3}" ng-click="home.setFilterRating(3)">3</button>
-                <button class="button button-small icon-right ion-ios-star ui-rating" ng-class="{active: home.filter.rating == 4}" ng-click="home.setFilterRating(4)">4</button>
-                <button class="button button-small icon-right ion-ios-star ui-rating" ng-class="{active: home.filter.rating == 5}" ng-click="home.setFilterRating(5)">5</button>
-              </div>
-            </div>
-
-            <div class="item range">
-              {{home.filter.minprice}}
-              <input type="range" value="0" min="10" max="450" step="10" ng-model="home.filter.minprice" />
-              450
+  <script id="filter-popover.html" type="text/ng-template">
+    <ion-popover-view class="popover-filter custom_popover_animation">
+      <ion-content>
+        <div class="list">
+          <div class="item item-divider">
+            Filters
+          </div>
+          <label class="item item-input">
+            <input type="text" placeholder="By hotel name" ng-model="home.filter.name">
+          </label>
+          <div class="item">
+            <p ng-if="home.filter.rating && home.filter.rating > 0" class="rating-filter">Rating score {{home.filter.rating}} or higher</p>
+            <p ng-if="!home.filter.rating || home.filter.rating < 1" class="rating-filter">All Rating score</p>
+            <div class="button-bar rating-bar">
+              <button class="button button-small icon-right ion-ios-star ui-rating" ng-class="{active: home.filter.rating == 1}" ng-click="home.setFilterRating(1)">1</button>
+              <button class="button button-small icon-right ion-ios-star ui-rating" ng-class="{active: home.filter.rating == 2}" ng-click="home.setFilterRating(2)">2</button>
+              <button class="button button-small icon-right ion-ios-star ui-rating" ng-class="{active: home.filter.rating == 3}" ng-click="home.setFilterRating(3)">3</button>
+              <button class="button button-small icon-right ion-ios-star ui-rating" ng-class="{active: home.filter.rating == 4}" ng-click="home.setFilterRating(4)">4</button>
+              <button class="button button-small icon-right ion-ios-star ui-rating" ng-class="{active: home.filter.rating == 5}" ng-click="home.setFilterRating(5)">5</button>
             </div>
           </div>
-          <div class="button-bar button-bottom">
-              <a class="button button-positive" ng-click="home.applyFilter()">Save</a>
-              <a class="button button-outline button-positive" ng-click="home.cancelFilter()">Cancel</a>
-            </div>
-        </ion-content>
-      </ion-popover-view>
-    </script>
 
-    <script id="sort-popover.html" type="text/ng-template">
-      <ion-popover-view>
-        <ion-content>
-          <div class="list">
-            <a class="item" ng-click="home.applySort(1)">
-              By Price (low to high)
-            </a>
-            <a class="item" ng-click="home.applySort(2)">
-              By Price (high to low)
-            </a>
-            <a class="item" ng-click="home.applySort(3)">
-              By Rating
-            </a>
+          <div class="item range">
+            {{home.filter.minprice}}
+            <input type="range" value="0" min="10" max="450" step="10" ng-model="home.filter.minprice" />
+            450
           </div>
-        </ion-content>
-      </ion-popover-view>
-    </script>
+        </div>
+        <div class="button-bar button-bottom">
+            <a class="button button-positive" ng-click="home.applyFilter()">Save</a>
+            <a class="button button-outline button-positive" ng-click="home.cancelFilter()">Cancel</a>
+          </div>
+      </ion-content>
+    </ion-popover-view>
+  </script>
 
+  <script id="sort-popover.html" type="text/ng-template">
+    <ion-popover-view class="popover-sort custom_popover_animation">
+      <ion-content>
+        <div class="list">
+          <div class="item item-divider">
+            Sort
+          </div>
+          <a class="item" ng-click="home.applySort(1)">
+            By Price (low to high)
+          </a>
+          <a class="item" ng-click="home.applySort(2)">
+            By Price (high to low)
+          </a>
+          <a class="item" ng-click="home.applySort(3)">
+            By Rating
+          </a>
+        </div>
+      </ion-content>
+    </ion-popover-view>
+  </script>
 </ion-view>

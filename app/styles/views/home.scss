@@ -1,10 +1,35 @@
 .header {
 
 }
-
+.filter_and_sort {
+  max-width: 300px;
+  margin: auto;
+  .icon{
+    &:before{
+      font-size: 20px!important;
+    } 
+  }
+}
 .content {
   padding: 1rem;
 }
+.custom_popover_animation {
+  -webkit-transition: all 2s ease-out;
+  -moz-transition: all 2s ease-out;
+  -ms-transition: all 2s ease-out;
+  -o-transition: all 2s ease-out;
+  transition: all 2s ease-out;  
+}
+
+.popover-sort {
+  ion-content {
+    margin: 0px!important;
+    div.scroll{
+      height: 100%;
+    }
+  }
+}
+
 .popover-filter {
   width: 100%!important;
   ion-content {
