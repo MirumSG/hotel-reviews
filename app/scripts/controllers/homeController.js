@@ -87,13 +87,15 @@ angular.module('HotelReview')
                 $scope.$broadcast('scroll.infiniteScrollComplete');
               }, function(err) {
                 $log.error(err);
-                $ionicPopup.show({
-                  'template': '<p>'+ err +'</p>',
-                  'title': 'Error',
-                  buttons: [
-                    { text: 'Ok' }
-                  ]
-                });
+                if(typeof(err) != 'undefined'){
+                    $ionicPopup.show({
+                      'template': '<p>'+ err +'</p>',
+                      'title': 'Error',
+                      buttons: [
+                        { text: 'Ok' }
+                      ]
+                    });
+                } 
                 ctrl.hotels = [];
                 ctrl.moreHotelCanBeLoaded = false;
                 isLoadingInProgress = false;
