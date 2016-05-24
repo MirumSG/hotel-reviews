@@ -35,7 +35,7 @@
 	<!--</ion-header-bar>-->
 
 	<div class="map-container" style="position: relative;"
-	     ng-style="{'z-index': placeCtrl.place?100:0}">
+	     ng-style="{'z-index': placeCtrl.place||activityStore.toggleMapFocus?100:0}">
 
 		<div g-map
 		     name="dashboardMap"
@@ -133,7 +133,7 @@
 						</h2>
 					</div>
 
-					<p ng-bind="review.rating + 'Stars'"></p>
+					<p ng-bind="review.rating + ' Stars'"></p>
 				</div>
 
 				<!-- Preview photos -->
@@ -163,7 +163,9 @@
 
 		<div class="list">
 
-			<div style="height: 250px;"></div>
+			<div
+				ng-click="action.toggleMapToFocus(true)"
+				style="height: 250px; background-color: rgba(173, 190, 244, 0.3)"></div>
 
 			<div
 				ng-if="!mapCtrl.location && searchResults.length==0"
@@ -173,7 +175,14 @@
 					class="text-center"></p>
 			</div>
 
+			<div ng-show="activityStore.isUpdatingNearByList" class="progress-bar">
+				<div class="progress progress-gray">
+					<div class="indeterminate"></div>
+				</div>
+			</div>
+
 			<div
+				on-touch="action.toggleMapToFocus(false)"
 				ng-repeat="place in searchResults track by place.id | limitTo : 20"
 				class="item item-thumbnail-left item-button-right">
 				<div class="overflow-hidden"
@@ -183,7 +192,7 @@
 						ng-bind="place.name"></h3>
 					<p ng-bind="place.vicinity"></p>
 					<p ng-show="place.rating"
-					   ng-bind="place.rating + ' stars'"></p>
+					   ng-bind="place.rating + ' Stars'"></p>
 				</div>
 				<div layout="column" layout-align="start center"
 				     ng-class="{'padding': !place.getPreviewPhotoUrl()}"

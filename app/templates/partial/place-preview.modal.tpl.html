@@ -61,22 +61,25 @@
 
 				<div
 					ng-repeat="review in placeDetails.reviews | limitTo:state.reviewList_expanded?100:2"
-					class="item item-avatar-left">
+					class="item item-avatar-left item-text-wrap">
 					<img ng-src="{{review.profile_photo_url}}"
 					     fallback-src="images/user.png"
 					     loading-src="images/user.png"
 					     alt="User Profile">
 
 					<div layout="row">
-						<h2 flex>
+						<h3 class="no-margin" flex>
 							<span ng-bind="review.author_name"></span>
-						</h2>
-						<h2 class="padding-left color-light-2">
+						</h3>
+						<h3 class="padding-left color-light-2">
 							<span ng-bind="placeDetails.getReviewTimeStamp(review.time)"></span>
-						</h2>
+						</h3>
 					</div>
 
-					<p ng-bind="review.rating + 'Stars'"></p>
+					<p>
+						<span class="text-bold push-right pr-sm" ng-bind="review.rating + ' Stars'"></span>
+					</p>
+					<p><span ng-bind="review.text"></span></p>
 				</div>
 
 				<div

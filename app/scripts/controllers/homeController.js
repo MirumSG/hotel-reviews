@@ -74,7 +74,9 @@ angular.module('HotelReview')
           if (!place) {
             updateMapCenterMarker($scope.mapCtrl.location);
           }
-        }
+        },
+
+        toggleMapToFocus: _toggleMapToFocus
       };
 
       $scope.mapCtrl = {
@@ -120,6 +122,7 @@ angular.module('HotelReview')
         _cleanupBucket.viewEnterWatchOff && _cleanupBucket.viewEnterWatchOff();
       }
 
+
       /**
        * Update map object with provided location.
        * */
@@ -130,6 +133,7 @@ angular.module('HotelReview')
           lng: location.lng
         }));
       }
+
 
       /**
        * Update map center marker
@@ -167,6 +171,7 @@ angular.module('HotelReview')
 
       }
 
+
       /**
        * Select/Un-select place.
        * */
@@ -181,9 +186,16 @@ angular.module('HotelReview')
         }
       }
 
-      function _bringMapintoView() {
-        $ionicScrollDelegate.$getByHandle('dashboardScroll').scrollTop();
+
+      function _toggleMapToFocus(toFocus) {
+        if (toFocus) {
+          $ionicScrollDelegate.$getByHandle('dashboardScroll').scrollTop();
+          $scope.activityStore.toggleMapFocus = true;
+        } else {
+          $scope.activityStore.toggleMapFocus = false;
+        }
       }
+
 
       /**
        * Load selected places details into scope.
@@ -286,12 +298,17 @@ angular.module('HotelReview')
         if (!location) {
           $scope.$broadcast('scroll.refreshComplete');
         }
+
+        $scope.activityStore.isUpdatingNearByList = true;
         return ApiService.findHotelsNearBy(DASHBOARD_MAP_NAME, location, {
           radius: searchRadius
         })
           .then(function (response) {
             _renderHotelList(response);
 
+          })
+          .finally(function () {
+            $scope.activityStore.isUpdatingNearByList = false;
           })
       }
 
