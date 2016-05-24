@@ -1,8 +1,8 @@
 <ion-view ng-controller="DetailController as detail">
   <ion-nav-bar class="bar-positive">
     <ion-nav-back-button></ion-nav-back-button>
-    <ion-nav-title ng-show="detail.hotel.name">
-      <button ng-click="detail.showReviewSummary($event)" class="button button-clear icon ion-arrow-down-b review_summay_drop_button" ng-bind="::detail.hotel.name"></button>
+    <ion-nav-title ng-bind="::detail.hotel.name">
+      <!-- <button ng-click="detail.showReviewSummary($event)" class="button button-clear icon ion-arrow-down-b review_summay_drop_button" ></button> -->
     </ion-nav-title>
   </ion-nav-bar>
 
@@ -21,6 +21,9 @@
       <div class="hotel-info">
         <h4 ng-bind="::detail.hotel.name"></h4>
         <div ng-if="detail.hotel.rating" ui-rating="{{::detail.hotel.rating}}"></div>
+        <p class="review_summary">
+          <button ng-click="detail.showReviewSummary($event)" class="button button-clear button-small">review summary</button> 
+        </p>
       </div>
       <div class="button-bar save_and_share">
         <a class="button button-outline button-positive" ng-click="detail.saveHotel(e)" ng-disabled="detail.savedHotels.indexOf(detail.hotel.place_id) > -1">Save</a>
@@ -67,13 +70,16 @@
     </section>
   </ion-content>
 
-  <script id="reviewsummary-popover.html" type="text/ng-template">
-    <ion-popover-view class="popover-reviewsummary" style="height: {{(70 * detail.hotel.reviewsummaries.length) + 'px'}};">
+  <script id="reviewsummary-modal.html" type="text/ng-template">
+    <ion-modal-view class="popover-reviewsummary" style="height: {{(70 * detail.hotel.reviewsummaries.length) + 'px'}};">
+      <ion-header-bar>
+        <div class="buttons">
+          <button class="button button-outline" ng-click="detail.hideReviewSummary()">Done</button>
+          <h1 class="title">Reviews Summary</h1>
+        </div>
+      </ion-header-bar>
       <ion-content>
         <div class="list">
-          <div class="item item-divider">
-            Reviews Summary
-          </div>
           <a class="item" href="#" ng-repeat="summary in detail.hotel.reviewsummaries">
             {{summary.name}}
             <div class="progress">
@@ -83,7 +89,7 @@
           </a>
         </div>
       </ion-content>
-    </ion-popover-view>
+    </ion-modal-view>
   </script>
 
   <script id="imagefullscreen-modal.html" type="text/ng-template">

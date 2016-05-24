@@ -8,7 +8,7 @@
  */
 angular.module('HotelReview')
   .controller('DetailController', ['APP_CONFIG', 'GPlace', '$localStorage', '$ionicPopup', '$cordovaSocialSharing', '$state', '$log', '_', 
-    '$ionicPopover', '$scope', '$ionicModal', '$ionicSlideBoxDelegate', function(APP_CONFIG, GPlace, $localStorage, $ionicPopup, $cordovaSocialSharing, $state, $log, _, $ionicPopover, $scope, $ionicModal, $ionicSlideBoxDelegate) {
+    '$scope', '$ionicModal', '$ionicSlideBoxDelegate', function(APP_CONFIG, GPlace, $localStorage, $ionicPopup, $cordovaSocialSharing, $state, $log, _, $scope, $ionicModal, $ionicSlideBoxDelegate) {
     var ctrl = this;
     this.photos = [
       {
@@ -108,7 +108,7 @@ angular.module('HotelReview')
 
     ctrl.animation = 'slide-in-up';
 
-    $ionicPopover.fromTemplateUrl('reviewsummary-popover.html', {
+    $ionicModal.fromTemplateUrl('reviewsummary-modal.html', {
       scope: $scope,
       animation: ctrl.animation
     }).then(function(popover) {
@@ -120,7 +120,11 @@ angular.module('HotelReview')
 
     this.showReviewSummary = function(e){
       $log.debug('Show review summary');
-      ctrl.reviewsummaryPopover.show(e);
+      ctrl.reviewsummaryPopover.show();
+    };
+
+    this.hideReviewSummary = function(){
+      ctrl.reviewsummaryPopover.hide();
     };
 
     $ionicModal.fromTemplateUrl('imagefullscreen-modal.html', {

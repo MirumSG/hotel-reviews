@@ -32,6 +32,21 @@
   }
   .hotel-info {
     margin: 8px;
+    div[ui-rating]{
+      width: 50%;
+      float: left;
+    }
+    .review_summary {
+      float: right;
+      margin: 0;
+      padding: 0;
+      .button-small {
+        color: #ee8628;
+        min-height: 20px!important;
+        line-height: 0px!important;
+        text-decoration: underline;
+      }
+    }
   }
   .hotel-info, .hotel-reviews {
     h4 {
@@ -121,5 +136,7 @@
     position: fixed;
     right: 0;
     top: 0;
+    width: 100%;
+    height: 100%
   }
 }
