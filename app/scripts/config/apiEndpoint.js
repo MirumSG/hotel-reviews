@@ -18,7 +18,11 @@ angular.module('HotelReview')
         port: 3000,
         path: '',
         needsAuth: false
-    });
+    })
+    .constant('GOOGLE_PLACES_API', {
+        FIND_PLACES: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
+    })
+;
 
 
     // live example with HTTP Basic Auth

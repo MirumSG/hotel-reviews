@@ -1,18 +1,30 @@
 <!doctype html>
 <html class="no-js">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title>HotelReview</title>
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+	<meta charset="utf-8">
+	<meta name="viewport"
+	      content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+	<title>HotelReview</title>
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-    <meta name="format-detection" content="telephone=no">
+	<meta name="format-detection" content="telephone=no">
 
-    <!-- inject:app-styles:css --><!-- endinject -->
+	<!-- inject:app-styles:css --><!-- endinject -->
 </head>
 <body ng-app="HotelReview">
 
-<ion-nav-view></ion-nav-view>
+<!--Todo: Load google API script using script injection. Avoid hardcoded API key.-->
+<script
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9tbRYaqLkmRZYG_1UBAn4sqTA13dfJAE&libraries=places"></script>
+
+
+<ion-nav-view>
+
+	<div layout="row" layout-align="center center">
+		Splash
+	</div>
+
+</ion-nav-view>
 
 <!-- inject:vendor:js --><!-- endinject -->
 <!-- inject:app:js --><!-- endinject -->

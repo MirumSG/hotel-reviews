@@ -1,0 +1,109 @@
+<ion-modal-view class="modal-view-clear">
+	<ion-header-bar class="bar-positive">
+		<h1
+			ng-bind="place.name"
+			class="title"></h1>
+
+		<div class="buttons">
+			<button
+				aria-label="Close Details"
+				ng-click="action.close()"
+				class="button button-icon button-icon-small ion-android-close">
+			</button>
+		</div>
+
+		<div ng-show="asyncActive" class="progress-bar">
+			<div class="progress progress-gray">
+				<div class="indeterminate"></div>
+			</div>
+		</div>
+
+	</ion-header-bar>
+	<ion-content>
+
+		<div class="modal-overlay-content" layout="column">
+
+			<div flex class="item padding-none bg-shade-dark">
+
+				<div ng-if="placeDetails.getBannerPhotoUrl()"
+					class="list"
+				     layout="column" layout-align="end center">
+					<div class="item bg-transparent item-image item-image-overlay">
+						<img
+							ng-src="{{placeDetails.getBannerPhotoUrl()}}" alt="">
+					</div>
+				</div>
+
+				<div class="card-image-overlay-content">
+					<div class="item item-text-wrap">
+						<h1 class="push-bottom-none text-left">
+							<small ng-bind="place.name"></small>
+						</h1>
+						<p
+							ng-bind="place.vicinity"
+							class="text-left color-light-2"></p>
+						<p ng-show="place.rating"
+						   ng-bind="place.rating + ' stars'"></p>
+					</div>
+				</div>
+
+			</div>
+
+
+			<div flex class="list list-borderless"
+			     style="background-color: #000">
+
+				<div class="item item-divider">Reviews</div>
+
+				<div ng-show="!placeDetails.reviews || placeDetails.reviews.length==0" class="item">
+					<p class="">No reviews are available for this place</p>
+				</div>
+
+				<div
+					ng-repeat="review in placeDetails.reviews | limitTo:state.reviewList_expanded?100:2"
+					class="item item-avatar-left item-text-wrap">
+					<img ng-src="{{review.profile_photo_url}}"
+					     fallback-src="images/user.png"
+					     loading-src="images/user.png"
+					     alt="User Profile">
+
+					<div layout="row">
+						<h3 class="no-margin" flex>
+							<span ng-bind="review.author_name"></span>
+						</h3>
+						<h3 class="padding-left color-light-2">
+							<span ng-bind="placeDetails.getReviewTimeStamp(review.time)"></span>
+						</h3>
+					</div>
+
+					<p>
+						<span class="text-bold push-right pr-sm" ng-bind="review.rating + ' Stars'"></span>
+					</p>
+					<p><span ng-bind="review.text"></span></p>
+				</div>
+
+				<div
+					ng-show="!state.reviewList_expanded && placeDetails.reviews.length>2"
+					ng-click="action.expandReviewList()"
+					class="item">
+					<p class="text-center">View All Reviews</p>
+				</div>
+
+				<div class="">
+					<div layout="row" layout-wrap="" layout-align="center start">
+						<div
+							ng-repeat="photo in placeDetails.photos"
+							flex-sm-xs="100" flex-gt-xs="50" flex-gt-sm="33"
+							class="padding">
+							<div class="item item-image ">
+								<img ng-src="{{placeDetails.getPhotoUrl(photo)}}">
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</ion-content>
+</ion-modal-view>

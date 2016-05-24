@@ -8,8 +8,24 @@
  * This controller handles the side menu
  */
 angular.module('HotelReview')
-    .controller('MainController', function($scope) {
+    .controller('MainController', ['$scope', '$rootScope',
+        function ($scope, $rootScope) {
 
-        // do something with $scope
+            var asyncCounter = 0;
 
-    });
+
+            $rootScope.$on('asyncActive', function (event, data) {
+                if (!!data) {
+                    ++asyncCounter;
+                } else {
+                    --asyncCounter;
+                }
+                $rootScope.asyncActive = asyncCounter > 0;
+            });
+
+            $rootScope.$on('asyncActive:reset', function (event, data) {
+                asyncCounter = 0;
+                $rootScope.asyncActive = false;
+            });
+
+        }]);

@@ -2,12 +2,13 @@
   "name": "HotelReview",
   "private": "true",
   "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.0.0-rc.1",
-    "angular": "~1.3.11"
+    "ionic": "driftyco/ionic-bower#1.3.0",
+    "angular": "~1.5.5"
   },
   "dependencies": {
     "ngCordova": "~0.1.12-alpha",
     "angular-resource": "~1.3.11",
+    "angular-img-fallback": "^0.1.4",
     "lodash": "~3.0.1"
   },
   "resolutions": {

@@ -1,0 +1,16 @@
+@import "../layout/layout-attributes";
+
+$dashboard-map-height: 300px;
+
+@media (min-width: $layout-breakpoint-sm) {
+}
+
+@media (min-width: $layout-breakpoint-sm) and (max-width: $layout-breakpoint-md - 1) {
+}
+
+@media (min-width: $layout-breakpoint-md) {
+}
+
+@media (max-width: $layout-breakpoint-sm - 1) {
+
+}

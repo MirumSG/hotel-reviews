@@ -4,8 +4,10 @@
  *
  ************************************/
 
+@import "ionic/scss/ionic";
 @import "_variables";
 @import "_fonts";
+
 
 /**
  * LAYOUT
@@ -13,6 +15,24 @@
 
 @import "layout/layout";
 
+/**
+ * STRUCTURE UTILITIES
+ */
+
+@import "structure";
+
+
+/**
+ * COLOR UTILITIES
+ */
+
+@import "colors";
+
+/**
+ * TYPOGRAPHY UTILITIES
+ */
+
+@import "type";
 
 /**
  * MENU
@@ -25,3 +45,47 @@
  */
 
 @import "views/home";
+
+
+/**
+ * ICONS
+ */
+
+@import "icon";
+
+@import "image";
+
+/**
+ * Component: Form
+ */
+
+@import "form/form";
+
+/**
+ * Component: Button
+ */
+
+@import "button/button";
+
+/**
+ * Component: Modal
+ */
+
+@import "modal/modal";
+
+/**
+ * Component: Ionic Popup
+ */
+
+@import "ionic-plus-plus/popup";
+
+/**
+ * Component: loading-bar
+ */
+
+@import "loading-bar/loading-bar";
+
+/**
+ * Module: dashboard
+ */
+@import "views/dashboard";

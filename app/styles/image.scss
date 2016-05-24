@@ -1,0 +1,22 @@
+.item-image-avatar-overlay {
+  position: absolute;
+  height: 25px;
+  width: 25px;
+  bottom: 0;
+  left: 20px;
+  background-color: rgba(221, 221, 221, 0.8);
+  border-radius: 2px;
+  padding: 3px;
+}
+
+.item-image {
+  overflow: hidden;
+}
+
+.item-image-match-height {
+  height: 70px;
+  img {
+    height: 100%;
+    width: auto;
+  }
+}
