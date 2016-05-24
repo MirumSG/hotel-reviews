@@ -10,16 +10,6 @@ angular.module('HotelReview')
   .controller('DetailController', ['APP_CONFIG', 'GPlace', '$localStorage', '$ionicPopup', '$cordovaSocialSharing', '$state', '$log', '_', 
     '$scope', '$ionicModal', '$ionicSlideBoxDelegate', function(APP_CONFIG, GPlace, $localStorage, $ionicPopup, $cordovaSocialSharing, $state, $log, _, $scope, $ionicModal, $ionicSlideBoxDelegate) {
     var ctrl = this;
-    this.photos = [
-      {
-        src:'http://placehold.it/660x640',
-        sub: 'This is a <b>subtitle</b>'
-      },
-      {
-        src:'http://placehold.it/660x640',
-        sub: 'This is a <b>subtitle</b>'
-      },
-    ];
     GPlace
       .getHotelDetail($state.params.id)
       .then(function(data) {

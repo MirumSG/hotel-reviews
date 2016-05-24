@@ -12,7 +12,8 @@ angular.module('HotelReview')
     this.title = APP_CONFIG.TITLE + ' - Saved';
 
     this.loadHotels = function(){
-        this.hotels = $localStorage.bookmarks || [];
+      this.hotels = $localStorage.bookmarks;
+      if(!this.hotels) this.hotels = [];
     };
 
     this.loadHotels();

@@ -60,16 +60,19 @@ angular.module('HotelReview')
             console.log(filteredHotels);
             ctrl.hotels = filteredHotels;
         };
-
+        var lat, lng;
         this.loadHotels = function(){
+            if(!lat || !lng){
+                return $log.debug('There is no lat and lng');
+            }
             if(isLoadingInProgress){
                 $log.debug('Loading in progress...');
                 return;
             }
-            $log.debug('Loading hotels ' + ctrl.lat + ' - ' + ctrl.lng + ' - ' + ctrl.nextPageToken);
+            $log.debug('Loading hotels ' + lat + ' - ' + lng + ' - ' + ctrl.nextPageToken);
             isLoadingInProgress = true;
             GPlace
-              .findNearByHotels(ctrl.lat, ctrl.lng, 400, ctrl.nextPageToken)
+              .findNearByHotels(lat, lng, 400, ctrl.nextPageToken)
               .then(function(data) {
                 if(data && data.hotels && data.hotels.length > 0){
                     originalHotels = originalHotels.concat(data.hotels);
@@ -102,9 +105,10 @@ angular.module('HotelReview')
         $cordovaGeolocation
             .getCurrentPosition(posOptions)
             .then(function (position) {
-              ctrl.lat  = position.coords.latitude;
-              ctrl.lng = position.coords.longitude;
-              ctrl.loadHotels();
+                $log.debug(position.coords);
+                lat = position.coords.latitude;
+                lng = position.coords.longitude;
+                ctrl.loadHotels();
             }, function(err) {
                 $log.debug(err);
               // cannot get geolocation, use bugis as default
@@ -116,8 +120,8 @@ angular.module('HotelReview')
                     ]
                 });
                 // default to bugis
-                ctrl.lat = 1.2995212;
-                ctrl.lng = 103.8535033;
+                lat = 1.2995212;
+                lng = 103.8535033;
                 ctrl.loadHotels();
             });
 
