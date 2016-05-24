@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 
-angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize', 'gplace', 'ngStorage', 'uiGmapgoogle-maps', 'angular-cache', 'ion-gallery'])
+angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize', 'gplace', 'ngStorage', 'uiGmapgoogle-maps', 'angular-cache'])
   .constant('APP_CONFIG', {
     TITLE: 'Hotel Reviews'
   })
