@@ -1,80 +1,159 @@
 <ion-view view-title="Dashboard">
 
-	<!--<ion-nav-title class="title-complex">-->
-	<!--<div>-->
-	<!--<search-bar ng-if="searchCtrl.searchBarActive"></search-bar>-->
-	<!--<div-->
-	<!--ng-if="!searchCtrl.searchBarActive"-->
-	<!--class="title">Dashboard</div>-->
-	<!--</div>-->
-	<!--</ion-nav-title>-->
 
 	<ion-nav-buttons side="right">
-		<!--<button-->
-		<!--ng-click="searchCtrl.action.onSearchButtonClick()"-->
-		<!--class="button button-icon button-icon-small ion-android-search"></button>-->
+
+		<!-- Current GPS Positioning trigger -->
 		<button
 			ng-click="action.onPickLocationClick()"
 			ng-disabled="activityStore.isUpdatingLocation"
-			class="button button-icon icon-right button-icon-small ion-android-locate">
+			class="button button-icon icon-right button-icon-small ion-android-locate"
+			aria-label="Find My location">
 		</button>
-		<button
-			ng-click=""
-			ng-disabled="activityStore.isUpdatingLocation"
-			class="button button-icon icon-right button-icon-small ion-android-options">
-		</button>
+
+
+		<!-- Scale settings menu button -->
+		<!-------------------------------->
+		<!--<button-->
+		<!--ng-click=""-->
+		<!--ng-disabled="activityStore.isUpdatingLocation"-->
+		<!--class="button button-icon icon-right button-icon-small ion-android-options">-->
+		<!--</button>-->
 	</ion-nav-buttons>
 
-	<ion-header-bar class="bar-subheader item-input-inset">
-		<label class="item-input-wrapper">
-			<i class="icon ion-ios-search placeholder-icon"></i>
-			<input type="search" placeholder="Search Location">
-			<button class="button button-clear button-icon-small ion-android-close">
-			</button>
-		</label>
-		<button class="button button-clear button-icon-small ion-android-search">
-		</button>
-	</ion-header-bar>
+	<!-- Location Search Bar -->
+	<!------------------------->
+	<!--<ion-header-bar class="bar-subheader item-input-inset">-->
+		<!--<label class="item-input-wrapper">-->
+			<!--<i class="icon ion-ios-search placeholder-icon"></i>-->
+			<!--<input type="search" placeholder="Search Location">-->
+			<!--<button class="button button-clear button-icon-small ion-android-close">-->
+			<!--</button>-->
+		<!--</label>-->
+		<!--<button class="button button-clear button-icon-small ion-android-search">-->
+		<!--</button>-->
+	<!--</ion-header-bar>-->
 
-	<ion-footer-bar
-		ng-if="placeCtrl.place"
-		class="footer-tall md-whiteframe-8dp md-whiteframe-top">
-		<div class="full-width list list-borderless no-margin">
-			<div
-				class="item item-button-right padding-top">
-				<h2
-					ng-click="action.onPlaceItemClick(placeCtrl.place)"
-					ng-bind="placeCtrl.place.name"></h2>
+	<div class="map-container" style="position: relative;"
+	     ng-style="{'z-index': placeCtrl.place?100:0}">
+
+		<div g-map
+		     name="dashboardMap"
+		     on-map-ready="mapCtrl.onMapReady(mapCtrl.mapHandle)"
+		     location="mapCtrl.location"
+		     class="full-height full-width"></div>
+	</div>
+
+	<!-- Place Preview -->
+	<ion-content
+		ng-show="placeCtrl.place"
+		style="margin-top: 250px;z-index: 10;"
+		class="padding-none md-whiteframe-8dp md-whiteframe-top light-bg">
+		<div class="full-width">
+			<div class="full-width list no-margin">
+
+				<!-- Distance info -->
 				<div
-					ng-click="action.onPlaceItemClick(placeCtrl.place)"
-					layout="row">
+					class="item item-button-right padding-top pt-lg">
 
-					<!-- Distance Info -->
-					<div style="width: 90px;">
-						<h1 class="no-margin">
-							<small ng-bind="placeCtrl.selectedPlaceDistanceResult.distance"></small>
-						</h1>
-						<div ng-bind="placeCtrl.selectedPlaceDistanceResult.duration"></div>
+					<h2
+						ng-click="action.onPlaceItemClick(placeCtrl.place)"
+						ng-bind="placeCtrl.place.name"></h2>
+
+					<div ng-show="!placeCtrl.selectedPlaceDistanceResult">
+						<ion-spinner icon="spiral"></ion-spinner>
 					</div>
 
-					<!-- From - To - info -->
-					<div class="push-top overflow-hidden" flex>
-						<p class="text-overflow-ellipsis">
-							<i class="icon ion-ios-home"></i>
-							<span ng-bind="placeCtrl.selectedPlaceDistanceResult.from"></span>
-						</p>
-						<p class="text-overflow-ellipsis">
-							<i class="icon ion-android-locate"></i>
-							<span ng-bind="placeCtrl.selectedPlaceDistanceResult.to"></span>
-						</p>
+					<div
+						ng-show="placeCtrl.selectedPlaceDistanceResult"
+						layout="row" class="">
+
+						<!-- Distance Info -->
+						<div
+							ng-click="action.selectLocation(placeCtrl.place)"
+							style="width: 110px;">
+							<div>
+								<h1 class="no-margin">
+									<i class="icon icon-tiny ion-pin"></i>
+									<small ng-bind="placeCtrl.selectedPlaceDistanceResult.distance"></small>
+								</h1>
+								<div>
+									<span ng-bind="placeCtrl.selectedPlaceDistanceResult.duration"></span>
+								</div>
+							</div>
+						</div>
+
+						<!-- From - To - info -->
+						<div
+							ng-click="action.onPlaceItemClick(placeCtrl.place)"
+							class="push-top overflow-hidden" flex>
+							<p class="text-overflow-ellipsis">
+								<i class="icon ion-ios-home"></i>
+								<span ng-bind="placeCtrl.selectedPlaceDistanceResult.from"></span>
+							</p>
+							<p class="text-overflow-ellipsis">
+								<i class="icon ion-android-locate"></i>
+								<span ng-bind="placeCtrl.selectedPlaceDistanceResult.to"></span>
+							</p>
+						</div>
+					</div>
+
+					<div
+						ng-click="action.selectLocation(false)"
+						class="button button-icon ion-android-close button-icon-small"></div>
+
+				</div>
+
+
+				<!-- Place details -->
+				<div
+					ng-show=placeCtrl.placeDetails.reviews
+					class="item item-divider bg-transparent">
+					<p>
+						<span ng-bind="placeCtrl.placeDetails.reviews.length"></span>
+						<span ng-bind=::'Reviews'></span>
+					</p>
+				</div>
+
+				<!-- Review short list -->
+				<div
+					ng-repeat="review in placeCtrl.placeDetails.reviews | limitTo: 2"
+					class="item item-avatar-left">
+					<img ng-src="{{review.profile_photo_url}}"
+					     fallback-src="images/user.png"
+					     loading-src="images/user.png"
+					     alt="User Profile">
+
+					<div layout="row">
+						<h2 flex>
+							<span ng-bind="review.author_name"></span>
+						</h2>
+						<h2 class="padding-left color-light-2">
+							<span ng-bind="placeDetails.getReviewTimeStamp(review.time)"></span>
+						</h2>
+					</div>
+
+					<p ng-bind="review.rating + 'Stars'"></p>
+				</div>
+
+				<!-- Preview photos -->
+				<div
+					ng-click="action.onPlaceItemClick(placeCtrl.place)"
+					class="dark-bg">
+					<div
+						ng-repeat="photo in placeCtrl.placeDetails.photos | limitTo: 4"
+						class="item-image-match-height inline">
+						<img class="padding-horizontal ph-sm"
+						     fallback-src="images/user.png"
+						     loading-src="images/user.png"
+						     ng-src="{{placeCtrl.placeDetails.getPhotoUrl(photo)}}" alt="">
 					</div>
 				</div>
-				<div
-					ng-click="action.selectLocation(false)"
-					class="button button-icon ion-android-close button-icon-small"></div>
+
+
 			</div>
 		</div>
-	</ion-footer-bar>
+	</ion-content>
 
 	<ion-content delegate-handle="dashboardScroll">
 		<ion-refresher
@@ -84,13 +163,7 @@
 
 		<div class="list">
 
-			<div class="item padding-none map-container">
-				<div g-map
-				     name="dashboardMap"
-				     on-map-ready="mapCtrl.onMapReady(mapCtrl.mapHandle)"
-				     location="mapCtrl.location"
-				     class="full-height full-width"></div>
-			</div>
+			<div style="height: 250px;"></div>
 
 			<div
 				ng-if="!mapCtrl.location && searchResults.length==0"
@@ -102,8 +175,7 @@
 
 			<div
 				ng-repeat="place in searchResults track by place.id | limitTo : 20"
-				ng-class="{'item-avatar-left':!place.getPreviewPhotoUrl(), 'item-thumbnail-left':place.getPreviewPhotoUrl()}"
-				class="item item-button-right">
+				class="item item-thumbnail-left item-button-right">
 				<div class="overflow-hidden"
 				     ng-click="action.onPlaceItemClick(place)">
 					<h3
@@ -114,23 +186,22 @@
 					   ng-bind="place.rating + ' stars'"></p>
 				</div>
 				<div layout="column" layout-align="start center"
-				     ng-class="{'item-image': place.getPreviewPhotoUrl()}"
-				     class="rounded">
+				     ng-class="{'padding': !place.getPreviewPhotoUrl()}"
+				     class="item-image rounded">
 					<img
 						ng-click="action.onPlaceItemClick(place)"
 						class="rounded"
-						ng-class="{'item-image': !place.getPreviewPhotoUrl()}"
 						src="{{place.getPreviewPhotoUrl() || place.icon}}" alt="">
-					<div
-						ng-if="getPreviewPhotoUrl()"
-						class="item-image-avatar-overlay">
-						<img
-							src="{{place.icon}}" alt="">
-					</div>
+					<!--<div-->
+					<!--ng-if="getPreviewPhotoUrl()"-->
+					<!--class="item-image-avatar-overlay">-->
+					<!--<img-->
+					<!--src="{{place.icon}}" loading-src alt="">-->
+					<!--</div>-->
 				</div>
 				<button
 					ng-click="action.showPlaceMarker(place)"
-					class="button button-icon push-top ion-pin color-light-2"></button>
+					class="button button-icon push-top icon ion-ios-location color-light-2"></button>
 			</div>
 		</div>
 

@@ -12,3 +12,11 @@
 .item-image {
   overflow: hidden;
 }
+
+.item-image-match-height {
+  height: 70px;
+  img {
+    height: 100%;
+    width: auto;
+  }
+}

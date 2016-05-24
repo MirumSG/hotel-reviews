@@ -34,9 +34,9 @@ angular.module('HotelReview')
             return {
 
                 /**
-                 *
+                 * Find near by hotels
+                 * Current 'lodging' type filter is being used to find "hotel like" places.
                  * */
-
                 findHotelsNearBy: function (mapName, location, searchParams) {
                     var map = MapService.getMapByName(mapName);
                     var deferred = $q.defer();
@@ -62,7 +62,9 @@ angular.module('HotelReview')
                     return deferred.promise;
                 },
 
-
+                /**
+                 * Fetch selected place details.
+                 * */
                 findPlaceDetails: function (mapName, placeId) {
                     var map = MapService.getMapByName(mapName);
                     var deferred = $q.defer();
@@ -82,6 +84,9 @@ angular.module('HotelReview')
                     return deferred.promise;
                 },
 
+                /**
+                 * Fetch distance info between user location and selected hotel
+                 * */
                 getDistance: function (location1, location2) {
                     var deferred = $q.defer();
                     var origin1 = new google.maps.LatLng(location1.lat, location1.lng);

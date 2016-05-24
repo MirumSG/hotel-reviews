@@ -137,6 +137,13 @@ $unit: 4px;
   }
 }
 
+.padding-horizontal {
+  &.ph-sm {
+    padding-left: $content-padding-sm !important;
+    padding-right: $content-padding-sm !important;
+  }
+}
+
 .no-margin {
   margin: 0 !important;
 }
