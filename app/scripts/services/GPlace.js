@@ -44,8 +44,8 @@ angular.module('gplace', [])
           /**
            * price and discount simulation data based on rating since google api cannot provide data
            */
-          simulatePriceAndDiscount: function(rating){
-            $log.debug('simulatePriceAndDiscount ' + rating);
+          simulatePriceAndDiscountAndReview: function(rating){
+            $log.debug('simulatePriceAndDiscountAndReview ' + rating);
             var discount = _.random(0, 50);
             var price = _.random(50, 100); // price range to multiply
             if(rating > 0) {
@@ -55,6 +55,33 @@ angular.module('gplace', [])
             $log.debug('discount percent is ' + discount);
             var discountedPrice = price - (price * (discount/100));
             return {
+              reviewsummaries: [
+                {
+                  name: 'Value for money',
+                  rating: (_.random(1, Math.floor(rating)))
+                },
+                {
+                  name: 'Location',
+                  rating: (_.random(1, Math.floor(rating)))
+                },
+                {
+                  name: 'Staff Performance',
+                  rating: (_.random(1, Math.floor(rating)))
+                },
+                {
+                  name: 'Hotel condition/cleanliness',
+                  rating: (_.random(1, Math.floor(rating)))
+                },
+                {
+                  name: 'Room comfort/Standard',
+                  rating: (_.random(1, Math.floor(rating)))
+                },
+                {
+                  name: 'Food/Dining',
+                  rating: (_.random(1, Math.floor(rating)))
+                }
+              ],
+              total_review: (_.random(0, 10)),
               price: (discountedPrice.toFixed(2)),
               original_price: (price.toFixed(2)),
               discount: discount
@@ -74,6 +101,7 @@ angular.module('gplace', [])
            * hotel detail with cache implementation
            */
           getHotelDetail: function(placeId){
+            var self = this;
             var deferred = $q.defer();
             if(hotelCache.get('detail_' + placeId)){
               $log.debug('Hotel detail data from cache');
@@ -82,7 +110,12 @@ angular.module('gplace', [])
               $http.get(endpoint + 'details/json?placeid=' + placeId + '&key=' + apikey)
               .success(function(data , status, headers){
                 $log.debug('succes');
+                if(data.status !== 'OK') {
+                  return deferred.reject(data.error_message);
+                }
+
                 if(data && data.result && data.status === 'OK'){
+                  _.extend(data.result, self.simulatePriceAndDiscountAndReview(data.result.rating));
                   hotelCache.put('detail_' + placeId, data.result);
                   deferred.resolve(data.result);
                 }
@@ -120,13 +153,15 @@ angular.module('gplace', [])
               .success(function(data , status, headers){
                 $log.debug('succes');
                 $log.debug(data);
-                if(!data) return false;
+                if(data.status !== 'OK') {
+                  return deferred.reject(data.error_message);
+                }
 
                 var nextPageToken = data.next_page_token;
                 hotels = data.results;
                 _.each(hotels, function(hotel){
                   // set price here
-                  _.extend(hotel, self.simulatePriceAndDiscount(hotel.rating));
+                  _.extend(hotel, self.simulatePriceAndDiscountAndReview(hotel.rating));
                 });
                 var response = {
                   hotels: hotels,

@@ -26,9 +26,47 @@ angular.module('HotelReview')
         this.lng = 103.8535033;
 
         var isLoadingInProgress = false;
+        this.filterSortHotels = function(){
+            if(!originalHotels || originalHotels.length < 1) {
+                return false;
+            }
+
+            var filteredHotels = angular.copy(originalHotels);
+
+            if(ctrl.filter.name){
+                filteredHotels = _.filter(filteredHotels, function(hotel){
+                    return hotel.name.toLowerCase().indexOf(ctrl.filter.name.toLowerCase()) > -1;
+                });
+            }
+            if(ctrl.filter.rating){
+                filteredHotels = _.filter(filteredHotels, function(hotel){
+                    $log.debug(ctrl.filter.rating + ' === ' + hotel.rating + ' === ' + hotel.name);
+                    return hotel.rating && typeof(hotel.rating) !== 'undefined' && hotel.rating >= ctrl.filter.rating;
+                });
+            }
+            if(ctrl.filter.minprice){
+                filteredHotels = _.filter(filteredHotels, function(hotel){
+                    return hotel.price >= ctrl.filter.minprice;
+                });
+            }
+
+            if(ctrl.sort){
+                if(ctrl.sort === 1){
+                    filteredHotels = _.sortBy(filteredHotels, 'price');
+                }else if(ctrl.sort === 2){
+                    filteredHotels = _.sortBy(filteredHotels, 'price').reverse();
+                }else if(ctrl.sort === 3){
+                    filteredHotels = _.sortBy(filteredHotels, 'rating').reverse();
+                }
+            }
+
+            console.log(filteredHotels);
+            ctrl.hotels = filteredHotels;
+        };
+
         this.loadHotels = function(){
             if(isLoadingInProgress){
-                $log.debug("Loading in progress...");
+                $log.debug('Loading in progress...');
                 return;
             }
             $log.debug('Loading hotels ' + ctrl.lat + ' - ' + ctrl.lng + ' - ' + ctrl.nextPageToken);
@@ -44,37 +82,19 @@ angular.module('HotelReview')
                 if(!data.hotels || data.hotels.length < 20){
                     ctrl.moreHotelCanBeLoaded = false;
                 }
-                if(ctrl.filter.name){
-                    originalHotels = _.filter(originalHotels, function(hotel){
-                        return hotel.name.toLowerCase().indexOf(ctrl.filter.name.toLowerCase()) > -1;
-                    });
-                }
-                if(ctrl.filter.rating){
-                    originalHotels = _.filter(originalHotels, function(hotel){
-                        console.log(ctrl.filter.rating + ' === ' + hotel.rating);
-                        return hotel.rating >= ctrl.filter.rating;
-                    });
-                }
-                if(ctrl.filter.minprice){
-                    originalHotels = _.filter(originalHotels, function(hotel){
-                        return hotel.price >= ctrl.filter.minprice;
-                    });
-                }
-
-                if(ctrl.sort){
-                    if(ctrl.sort === 1){
-                        originalHotels = _.sortBy(originalHotels, 'price');
-                    }else if(ctrl.sort === 2){
-                        originalHotels = _.sortBy(originalHotels, 'price').reverse();
-                    }else if(ctrl.sort === 3){
-                        originalHotels = _.sortBy(originalHotels, 'rating').reverse();
-                    }
-                }
-                ctrl.hotels = angular.copy(originalHotels);
+                ctrl.filterSortHotels();               
                 isLoadingInProgress = false;
                 $scope.$broadcast('scroll.infiniteScrollComplete');
               }, function(err) {
                 $log.error(err);
+                $ionicPopup.show({
+                  'template': '<p>'+ err +'</p>',
+                  'title': 'Error',
+                  buttons: [
+                    { text: 'Ok' }
+                  ]
+                });
+                ctrl.hotels = [];
                 ctrl.moreHotelCanBeLoaded = false;
                 isLoadingInProgress = false;
                 $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -131,7 +151,7 @@ angular.module('HotelReview')
             this.filterPopover.hide();
         };
         this.applyFilter = function(){
-            this.loadHotels();
+            ctrl.filterSortHotels();
             this.filterPopover.hide();
         };
         this.setFilterRating = function(rating) {
@@ -144,7 +164,12 @@ angular.module('HotelReview')
         };
         this.applySort = function(sortby){
             this.sort = sortby;
-            this.loadHotels();
+            ctrl.filterSortHotels();
             this.sortPopover.hide();
         };
+
+        $scope.$on('$destroy', function() {
+          ctrl.sortPopover.remove();
+          ctrl.filterPopover.remove();
+        });
     }]);

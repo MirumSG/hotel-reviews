@@ -51,3 +51,75 @@
     
   }
 }
+
+.review_summay_drop_button {
+  &:before {
+    font-size: 22px!important;
+    position: absolute;
+    top: 13px;
+    width: 80%;
+    margin: auto;
+  }
+}
+
+.popover-reviewsummary {
+  -webkit-transition: all 1s ease-out;
+  -moz-transition: all 1s ease-out;
+  -ms-transition: all 1s ease-out;
+  -o-transition: all 1s ease-out;
+  transition: all 1s ease-out;
+  width: 100%;
+  margin: 0px;
+  a {
+    font-size: .8em;
+    font-weight: bold;
+  }
+  ion-content {
+    margin: 0px!important;
+    div.scroll{
+      height: 100%;
+    }
+  }
+  .progress {
+    position: relative;
+    height: 10px;
+    background-color: #cccccc;
+    border-radius: 5px;
+  }
+
+  .progress .progress-bar {
+    position: absolute;
+    display: block;
+    width: 100%;
+    color: black;
+    height: 10px;
+    background-color: #ee8628;
+    border-radius: 5px;
+  }
+  .badge {
+    top: 10px!important;
+    right: 15px!important;
+  }
+}
+
+.imagefullscreenmodal {
+  width: 100% !important;
+  height: 100%;
+  top: 0 !important;
+  left: 0 !important;
+  .scroll, .slider{
+    width: 100% !important;
+    height: 100%;
+  }
+  .fullscreen-image {
+    max-width: 100%;
+    max-height: 100%;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    overflow: auto;
+    position: fixed;
+    right: 0;
+    top: 0;
+  }
+}

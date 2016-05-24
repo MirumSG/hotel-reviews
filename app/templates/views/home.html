@@ -13,20 +13,23 @@
     <div class="loader" ng-if="!home.hotels">
       <ion-spinner></ion-spinner>
     </div>
-    <div class="list" ng-if="home.hotels && home.hotels.length > 0">
-      <a class="item item-thumbnail-left" ui-sref="app.detail({id: hotel.place_id})" ng-repeat="hotel in home.hotels">
+    <div class="list" ng-if="home.hotels && home.hotels.length > 0">      
+      <a class="item item-thumbnail-left" ui-sref="app.detail({id: hotel.place_id})" collection-repeat="hotel in home.hotels track by $index" item-height="140px">
         <img ng-src="{{hotel.photos[0].photo_reference | fetchphoto}}" ng-if="hotel.photos && hotel.photos.length > 0 && hotel.photos[0].photo_reference" />
-        <h2 ng-bind="::hotel.name"></h2>
-        <p ng-if="hotel.rating" ui-rating="{{::hotel.rating}}"></p>
-        <p ng-if="hotel.rating">{{::hotel.rating | number:0}}-star hotel</p>
-        <p ng-bind="::hotel.vicinity"></p>
+        <h2 ng-bind="hotel.name"></h2>
+        <p ng-if="hotel.rating" ui-rating="{{hotel.rating}}"></p>
+        <p ng-if="hotel.rating">{{hotel.rating | number:0}}-star hotel</p>
+        <p ng-bind="hotel.vicinity"></p>
         <div class="discounted_percentage" ng-if="hotel.discount">
           <div class="discounted_percentage_background"></div>
-          <span class="discounted_percentage_amount" ng-bind="::hotel.discount + '%'"></span>
+          <span class="discounted_percentage_amount" ng-bind="hotel.discount + '%'"></span>
         </div>
+        <p class="review-summary">
+          {{hotel.total_review}} reviews
+        </p>
         <div class="price-tag" ng-if="hotel.price">
-          <p class="discounted_price"><small>SGD</small>&nbsp;<span ng-bind="::hotel.price"></span></p>
-          <p class="strike" ng-if="hotel.original_price"><small>SGD</small>&nbsp;<span ng-bind="::hotel.original_price"></span></p>
+          <p class="discounted_price"><small>SGD</small>&nbsp;<span ng-bind="hotel.price"></span></p>
+          <p class="strike" ng-if="hotel.original_price"><small>SGD</small>&nbsp;<span ng-bind="hotel.original_price"></span></p>
         </div>
       </a>
     </div>
@@ -35,7 +38,7 @@
       icon="ion-loading-c"
       on-infinite="home.loadHotels()">
     </ion-infinite-scroll>
-    <div ng-if="home.hotels && home.hotels.length < 1" class="label text-center">
+    <div ng-if="home.hotels && home.hotels.length < 1" class="label text-center no-record-found">
       There is no hotel nearby.
     </div>
   </ion-content>

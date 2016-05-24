@@ -68,16 +68,19 @@
     color: #fff;
   }
 }
+.review-summary {
+  float: left;
+  font-weight: bold;
+  font-size: 0.9em;
+}
 .price-tag {
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
+  float: right;
   line-height: 15px;
   .discounted_price {
     color: purple;
     font-weight: bold;
     span {
-      font-size: 1.5em;
+      font-size: 1.2em;
     }
   }
   p {

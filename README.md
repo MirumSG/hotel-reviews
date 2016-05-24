@@ -23,6 +23,7 @@ https://github.com/tmaximini/ionic-gulp-seed
 ##### Notes
 
 - Google map has 1000 requests/day api limit
+- If API limit has exceed, error message will show and you can enable Google place webservice API to generate new API key using any google account or wait for next day (PST time - 3 pm SGT)
 
 ##### Features
 
@@ -37,3 +38,10 @@ https://github.com/tmaximini/ionic-gulp-seed
 - 1 Hour cache
 - Modefied seed code for better injection to avoid injection issue with minification
 - Configurable Google place API wrapper
+
+##### Simulated Data due to limited API
+
+- Price is simulated
+- Discount is simulated
+- Total review is simulated but list of review show in detail page is actual data from google map
+- Review summary data also simulated

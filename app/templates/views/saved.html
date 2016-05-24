@@ -16,7 +16,7 @@
         <p ng-bind="::hotel.vicinity"></p>
       </a>
     </div>
-    <div ng-if="home.hotels && home.hotels.length < 1">
+    <div ng-if="home.hotels && home.hotels.length < 1" class="label text-center no-record-found">
       There is no saved hotel.
     </div>
   </ion-content>

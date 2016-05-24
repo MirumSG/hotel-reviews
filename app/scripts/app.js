@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 
-angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize', 'gplace', 'ngStorage', 'uiGmapgoogle-maps', 'angular-cache'])
+angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize', 'gplace', 'ngStorage', 'uiGmapgoogle-maps', 'angular-cache', 'ion-gallery'])
   .constant('APP_CONFIG', {
     TITLE: 'Hotel Reviews'
   })
@@ -64,7 +64,7 @@ angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize',
   }])
   .directive('uiRating', ['$log', function($log){
     return {
-      template: '<span ng-bind="::rating"></span> <i ng-repeat="star in stars track by $index" class="{{star}}"></i>',
+      template: '<span ng-bind="rating"></span> <i ng-repeat="star in stars track by $index" class="{{star}}"></i>',
       restrict: 'A',
       scope: {},
       link: function(scope, ele, attrs){
@@ -72,10 +72,10 @@ angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize',
         // 1, .5, 0, max 5
         var max = 5;
         scope.rating = 0;
-        scope.stars = [];
         attrs.$observe('uiRating', function(rating){
           $log.debug('ui rating attribute has been triggered');
           $log.debug(rating);
+          scope.stars = [];
           scope.rating = rating;
 
           for(var i = 1; i<= max; i++){

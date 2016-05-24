@@ -1,17 +1,19 @@
 <ion-view ng-controller="DetailController as detail">
   <ion-nav-bar class="bar-positive">
     <ion-nav-back-button></ion-nav-back-button>
-    <ion-nav-title ng-bind="::detail.hotel.name"></ion-nav-title>
+    <ion-nav-title ng-show="detail.hotel.name">
+      <button ng-click="detail.showReviewSummary($event)" class="button button-clear icon ion-arrow-down-b review_summay_drop_button" ng-bind="::detail.hotel.name"></button>
+    </ion-nav-title>
   </ion-nav-bar>
 
   <ion-content class="detail">
     <div class="loader" ng-if="!detail.hotel">
       <ion-spinner></ion-spinner>
     </div>
-    <div ng-if="detail.hotel === false">Invalid Hotel</div>
-    <section ng-if="detail.hotel">
+    <div ng-if="detail.hotel && !detail.hotel.place_id" class="label text-center no-record-found">There is no data</div>
+    <section ng-if="detail.hotel && detail.hotel.place_id">
       <ion-slide-box>
-        <ion-slide ng-repeat="photo in detail.hotel.photos">
+        <ion-slide ng-repeat="photo in detail.hotel.photos" ng-click="detail.showFullscreenImage($index)">
           <img ng-src="{{photo.photo_reference | fetchphoto}}" ng-if="photo && photo.photo_reference" />
           <span>{{$index+1}}/{{detail.hotel.photos.length}}</span>
         </ion-slide>
@@ -64,4 +66,40 @@
       </section>
     </section>
   </ion-content>
+
+  <script id="reviewsummary-popover.html" type="text/ng-template">
+    <ion-popover-view class="popover-reviewsummary" style="height: {{(70 * detail.hotel.reviewsummaries.length) + 'px'}};">
+      <ion-content>
+        <div class="list">
+          <div class="item item-divider">
+            Reviews Summary
+          </div>
+          <a class="item" href="#" ng-repeat="summary in detail.hotel.reviewsummaries">
+            {{summary.name}}
+            <div class="progress">
+              <div class="progress-bar" style="width: {{summary.rating*20}}%;"></div>
+            </div>
+            <span class="badge badge-assertive" ng-bind="summary.rating"></span>
+          </a>
+        </div>
+      </ion-content>
+    </ion-popover-view>
+  </script>
+
+  <script id="imagefullscreen-modal.html" type="text/ng-template">
+    <ion-modal-view class="imagefullscreenmodal">
+      <ion-header-bar>
+        <div class="buttons">
+          <button class="button button-outline" ng-click="detail.hideFullscreenImage()">Done</button>
+        </div>
+      </ion-header-bar>
+      <ion-content>
+        <ion-slide-box>
+          <ion-slide ng-repeat="photo in detail.hotel.photos">
+            <img ng-src="{{photo.photo_reference | fetchphoto}}" ng-if="photo && photo.photo_reference" class="fullscreen-image" />
+          </ion-slide>
+        </ion-slide-box>
+      </ion-content>
+    </ion-modal-view>
+  </script>
 </ion-view>
