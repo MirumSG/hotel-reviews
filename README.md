@@ -15,10 +15,13 @@ https://github.com/tmaximini/ionic-gulp-seed
 
 ##### Instruction
 
-1. npm install
-2. bower install
-3. cordova platform add android/ios
-4. cordova emulate android
+1. npm install -g ionic
+2. npm install -g cordova
+3. npm install
+4. bower install
+5. gulp -b
+6. cordova platform add android/ios
+7. cordova emulate android
 
 ##### Notes
 

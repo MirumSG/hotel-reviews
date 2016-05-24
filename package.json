@@ -49,6 +49,7 @@
   "cordovaPlugins": [
     "cordova-plugin-whitelist",
     "cordova-plugin-inappbrowser",
-    "cordova-plugin-geolocation"
+    "cordova-plugin-geolocation",
+    "cordova-plugin-whitelist@1"
   ]
 }
