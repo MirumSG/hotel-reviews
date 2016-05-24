@@ -21,9 +21,6 @@ angular.module('HotelReview')
         };
         this.sort = false;
         this.moreHotelCanBeLoaded = true;
-        // default to bugis
-        this.lat = 1.2995212;
-        this.lng = 103.8535033;
 
         var isLoadingInProgress = false;
         this.filterSortHotels = function(){
@@ -111,15 +108,17 @@ angular.module('HotelReview')
             }, function(err) {
                 $log.debug(err);
               // cannot get geolocation, use bugis as default
-              $ionicPopup.show({
-                'template': '<p>Cannot get location. Bugis place is default</p>',
-                'title': 'Geolocation Error',
-                buttons: [
-                  { text: 'Ok' }
-                ]
-              });
-
-              ctrl.loadHotels();
+                $ionicPopup.show({
+                    'template': '<p>Cannot get location. Bugis place is default</p>',
+                    'title': 'Geolocation Error',
+                    buttons: [
+                        { text: 'Ok' }
+                    ]
+                });
+                // default to bugis
+                ctrl.lat = 1.2995212;
+                ctrl.lng = 103.8535033;
+                ctrl.loadHotels();
             });
 
         ctrl.animation = 'slide-in-up';

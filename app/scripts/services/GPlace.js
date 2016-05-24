@@ -131,7 +131,7 @@ angular.module('gplace', [])
           /**
            * get list of nearby hotel with cache implementation
            */
-          findNearByHotels: function(lat, long, r, nextPage){
+          findNearByHotels: function(lat, lng, r, nextPage){
             // price is simulated and photos get from place photo api
             $log.debug('nextPage is ' + nextPage);
             if(r === false || typeof(r) === 'undefined') {
@@ -141,7 +141,7 @@ angular.module('gplace', [])
               nextPage = '';
             }
             $log.debug('finding nearby hotels');
-            var cacheKey = 'l_' + lat.toString().replace('.', '_') + '$' + long.toString().replace('.', '_') + '$' + r + '$' + nextPage;
+            var cacheKey = 'l_' + lat.toString().replace('.', '_') + '$' + lng.toString().replace('.', '_') + '$' + r + '$' + nextPage;
             var hotels = [];
             var deferred = $q.defer();
             var self = this;
@@ -149,7 +149,7 @@ angular.module('gplace', [])
               $log.debug('Hotel list data from cache');
               deferred.resolve(hotelCache.get(cacheKey));
             }else{
-              $http.get(endpoint + 'nearbysearch/json?location=' + lat + ',' + long + '&radius=' + r + '&type=hotel&name=hotels&key=' + apikey + '&pagetoken=' + nextPage)
+              $http.get(endpoint + 'nearbysearch/json?location=' + lat + ',' + lng + '&radius=' + r + '&type=hotel&name=hotels&key=' + apikey + '&pagetoken=' + nextPage)
               .success(function(data , status, headers){
                 $log.debug('succes');
                 $log.debug(data);
