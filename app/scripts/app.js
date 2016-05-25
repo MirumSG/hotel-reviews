@@ -13,12 +13,6 @@ angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize',
   .constant('APP_CONFIG', {
     TITLE: 'Hotel Reviews'
   })
-  .run(['$ionicPlatform', function($ionicPlatform) {
-    $ionicPlatform.ready(function() {
-        // save to use plugins here
-    });
-    // add possible global event handlers here
-  }])
   .config(['$stateProvider', '$urlRouterProvider', 'GPlaceProvider', '$localStorageProvider', 'CacheFactoryProvider', function($stateProvider, $urlRouterProvider, GPlaceProvider, $localStorageProvider, CacheFactoryProvider) {
     $localStorageProvider.setKeyPrefix('hotelreview_win');
     GPlaceProvider.setAPIKey('AIzaSyASfWpP5Cl-uhJpLfepl54pRRRHTuYT2wc');
