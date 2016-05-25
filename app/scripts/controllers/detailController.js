@@ -69,6 +69,7 @@ angular.module('HotelReview')
       $log.debug('adding new bookmark item');
       $localStorage.bookmarks.push(this.hotel);
       this.savedHotels.push(this.hotel.place_id);
+      $scope.$broadcast('SAVED_NEW_HOTEL', {place_id: this.hotel.place_id});
       $ionicPopup.show({
         'template': '<p>Hotel is saved!</p>',
         'title': 'Bookmark',
@@ -108,7 +109,7 @@ angular.module('HotelReview')
       ctrl.reviewsummaryPopover = popover;
     });
 
-    this.showReviewSummary = function(e){
+    this.showReviewSummary = function(){
       $log.debug('Show review summary');
       ctrl.reviewsummaryPopover.show();
     };

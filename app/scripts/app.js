@@ -21,8 +21,7 @@ angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize',
   }])
   .config(['$stateProvider', '$urlRouterProvider', 'GPlaceProvider', '$localStorageProvider', 'CacheFactoryProvider', function($stateProvider, $urlRouterProvider, GPlaceProvider, $localStorageProvider, CacheFactoryProvider) {
     $localStorageProvider.setKeyPrefix('hotelreview_win');
-    // GPlaceProvider.setAPIKey('AIzaSyASfWpP5Cl-uhJpLfepl54pRRRHTuYT2wc');
-    GPlaceProvider.setAPIKey('AIzaSyDape0jV390rLykygSVTSEJAlXADBGNCFQ');
+    GPlaceProvider.setAPIKey('AIzaSyASfWpP5Cl-uhJpLfepl54pRRRHTuYT2wc');
     angular.extend(CacheFactoryProvider.defaults, { maxAge: 60 * 60 * 1000 });
     // Application routing
     $stateProvider

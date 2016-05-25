@@ -11,10 +11,17 @@ angular.module('HotelReview')
     this.hotels = false;
     this.title = APP_CONFIG.TITLE + ' - Saved';
 
-    this.loadHotels = function(){
+    this.loadSavedHotels = function(){
       this.hotels = $localStorage.bookmarks;
-      if(!this.hotels) this.hotels = [];
+      $log.debug(this.hotels);
+      if(!this.hotels || typeof(this.hotels) == 'undefined') {
+        this.hotels = [];
+      }
     };
 
-    this.loadHotels();
+    this.loadSavedHotels();
+
+    $scope.$on('SAVED_NEW_HOTEL', function(data){
+      this.loadSavedHotels();
+    })
   }]);

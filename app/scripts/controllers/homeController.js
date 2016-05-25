@@ -38,7 +38,7 @@ angular.module('HotelReview')
             if(ctrl.filter.rating){
                 filteredHotels = _.filter(filteredHotels, function(hotel){
                     $log.debug(ctrl.filter.rating + ' === ' + hotel.rating + ' === ' + hotel.name);
-                    return hotel.rating && typeof(hotel.rating) !== 'undefined' && hotel.rating >= ctrl.filter.rating;
+                    return hotel.rating && typeof(hotel.rating) != 'undefined' && hotel.rating >= ctrl.filter.rating;
                 });
             }
             if(ctrl.filter.minprice){
@@ -57,10 +57,11 @@ angular.module('HotelReview')
                 }
             }
 
-            console.log(filteredHotels);
             ctrl.hotels = filteredHotels;
         };
-        var lat, lng;
+        // default to bugis
+        var lat = 1.2995212,
+            lng = 103.8535033;
         this.loadHotels = function(){
             if(!lat || !lng){
                 return $log.debug('There is no lat and lng');

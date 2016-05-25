@@ -27,6 +27,7 @@ https://github.com/tmaximini/ionic-gulp-seed
 
 - Google map has 1000 requests/day api limit
 - If API limit has exceed, error message will show and you can enable Google place webservice API to generate new API key using any google account or wait for next day (PST time - 3 pm SGT)
+- Share feature would not work within ionic view (http://docs.ionic.io/v1.0/docs/view-usage)
 
 ##### Features
 
