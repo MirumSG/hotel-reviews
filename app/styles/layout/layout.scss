@@ -3,3 +3,31 @@
   width: 100%;
   padding: 20px 0;
 }
+.ui-rating-activated, [ui-rating] i{
+  color: #ee8628;
+}
+.ui-rating {
+  &.active{
+    background-color: #ee8628;
+    color: #ffffff;  
+  }
+}
+
+ion-header-bar {
+  .title {
+    color: #ffffff!important;
+  }
+}
+
+.button-bottom {
+  position: absolute;
+  bottom: 0;
+}
+
+.popup-body {
+  overflow: visible;
+}
+
+.no-record-found {
+  margin-top: 40px;
+}

@@ -1,0 +1,111 @@
+<ion-view ng-controller="DetailController as detail">
+  <ion-nav-bar class="bar-positive">
+    <ion-nav-back-button></ion-nav-back-button>
+    <ion-nav-title ng-bind="::detail.hotel.name">
+      <!-- <button ng-click="detail.showReviewSummary($event)" class="button button-clear icon ion-arrow-down-b review_summay_drop_button" ></button> -->
+    </ion-nav-title>
+  </ion-nav-bar>
+
+  <ion-content class="detail">
+    <div class="loader" ng-if="!detail.hotel">
+      <ion-spinner></ion-spinner>
+    </div>
+    <div ng-if="detail.hotel && !detail.hotel.place_id" class="label text-center no-record-found">There is no data</div>
+    <section ng-if="detail.hotel && detail.hotel.place_id">
+      <ion-slide-box>
+        <ion-slide ng-repeat="photo in detail.hotel.photos" ng-click="detail.showFullscreenImage($index)">
+          <img ng-src="{{photo.photo_reference | fetchphoto}}" ng-if="photo && photo.photo_reference" />
+          <span>{{$index+1}}/{{detail.hotel.photos.length}}</span>
+        </ion-slide>
+      </ion-slide-box>
+      <div class="hotel-info">
+        <h4 ng-bind="::detail.hotel.name"></h4>
+        <div ng-if="detail.hotel.rating" ui-rating="{{::detail.hotel.rating}}"></div>
+        <p class="review_summary" ng-if="detail.hotel.rating">
+          <button ng-click="detail.showReviewSummary($event)" class="button button-clear button-small">review summary</button> 
+        </p>
+      </div>
+      <div class="button-bar save_and_share">
+        <a class="button button-outline button-positive" ng-click="detail.saveHotel(e)" ng-disabled="detail.savedHotels.indexOf(detail.hotel.place_id) > -1">Save</a>
+        <a class="button button-outline button-positive" ng-click="detail.shareHotel()">Share</a>
+      </div>
+      <ui-gmap-google-map center='detail.map.center' zoom='detail.map.zoom'>
+        <ui-gmap-marker coords="detail.map.marker.coords" idkey="detail.map.marker.id">
+        </ui-gmap-marker>
+      </ui-gmap-google-map>
+      <section class="hotel-address">
+        <div class="list">
+          <a class="item item-icon-left" href="#" ng-if="detail.hotel.vicinity">
+            <i class="icon ion-earth"></i>
+            {{::detail.hotel.vicinity}}
+          </a>
+          <a class="item item-icon-left" ng-href="{{::detail.hotel.website}}" target="_blank" ng-if="detail.hotel.website">
+            <i class="icon ion-email"></i>
+            {{::detail.hotel.website | getdomain}}
+          </a>
+          <a class="item item-icon-left" href="#" ng-if="detail.hotel.international_phone_number">
+            <i class="icon ion-ios-telephone"></i>
+            {{::detail.hotel.international_phone_number}}
+          </a>
+          <div class="item item-divider">
+            Reviews
+          </div>
+        </div>
+      </section>
+      <section class="hotel-reviews">
+        <div class="list card" ng-repeat="review in detail.hotel.reviews">
+
+          <div class="item item-avatar">
+            <img ng-src="{{ review.profile_photo_url | authorprofile }}">
+            <h2 ng-bind="::review.author_name"></h2>
+            <small ng-bind="::review.time|fromNow"></small>
+          </div>
+
+          <div class="item item-body">
+            <div ng-if="review.rating" ui-rating="{{::review.rating}}"></div>
+            <p ng-bind="::review.text"></p>
+          </div>
+        </div>
+      </section>
+    </section>
+  </ion-content>
+
+  <script id="reviewsummary-modal.html" type="text/ng-template">
+    <ion-modal-view class="popover-reviewsummary" style="height: {{(70 * detail.hotel.reviewsummaries.length) + 'px'}};">
+      <ion-header-bar>
+        <div class="buttons">
+          <button class="button button-outline" ng-click="detail.hideReviewSummary()">Done</button>
+          <h1 class="title">Reviews Summary</h1>
+        </div>
+      </ion-header-bar>
+      <ion-content>
+        <div class="list">
+          <a class="item" href="#" ng-repeat="summary in detail.hotel.reviewsummaries">
+            {{summary.name}}
+            <div class="progress">
+              <div class="progress-bar" style="width: {{summary.rating*20}}%;"></div>
+            </div>
+            <span class="badge badge-assertive" ng-bind="summary.rating"></span>
+          </a>
+        </div>
+      </ion-content>
+    </ion-modal-view>
+  </script>
+
+  <script id="imagefullscreen-modal.html" type="text/ng-template">
+    <ion-modal-view class="imagefullscreenmodal">
+      <ion-header-bar>
+        <div class="buttons">
+          <button class="button button-outline" ng-click="detail.hideFullscreenImage()">Done</button>
+        </div>
+      </ion-header-bar>
+      <ion-content>
+        <ion-slide-box>
+          <ion-slide ng-repeat="photo in detail.hotel.photos">
+            <img ng-src="{{photo.photo_reference | fetchphoto}}" ng-if="photo && photo.photo_reference" class="fullscreen-image" />
+          </ion-slide>
+        </ion-slide-box>
+      </ion-content>
+    </ion-modal-view>
+  </script>
+</ion-view>

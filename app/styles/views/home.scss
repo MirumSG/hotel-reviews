@@ -1,7 +1,120 @@
 .header {
 
 }
-
+.filter_and_sort {
+  max-width: 300px;
+  margin: auto;
+  .icon{
+    &:before{
+      font-size: 20px!important;
+    } 
+  }
+}
 .content {
   padding: 1rem;
 }
+.custom_popover_animation {
+  -webkit-transition: all 1s ease-out;
+  -moz-transition: all 1s ease-out;
+  -ms-transition: all 1s ease-out;
+  -o-transition: all 1s ease-out;
+  transition: all 1s ease-out;  
+}
+
+.popover-sort {
+  ion-content {
+    margin: 0px!important;
+    div.scroll{
+      height: 100%;
+    }
+  }
+}
+
+.popover-filter {
+  width: 100%!important;
+  left: 0px!important;
+  ion-content {
+    margin: 0px!important;
+    div.scroll{
+      height: 100%;
+    }
+  }
+  .rating-bar {
+    margin: auto;
+    max-width: 300px;
+    .button:before {
+      line-height: 18px;
+    }
+  }
+}
+.border-right {
+  border-right: 1px solid!important;
+}
+.discounted_percentage {
+  .discounted_percentage_background {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 0; 
+    height: 0; 
+    border-left: 40px solid transparent;
+    border-top: 40px solid #f00;
+  }
+
+  .discounted_percentage_amount {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 0.8em;
+    color: #fff;
+  }
+}
+.review-summary {
+  float: left;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+.price-tag {
+  float: right;
+  line-height: 15px;
+  .discounted_price {
+    color: purple;
+    font-weight: bold;
+    span {
+      font-size: 1.2em;
+    }
+  }
+  p {
+    small{
+      font-size: 0.8em;
+    }
+    &.strike {
+      font-weight: bold;
+      text-decoration: line-through;
+      span {
+        font-size: 1em;
+      }
+    }
+  }
+}
+
+.rating-filter {
+  text-align: center;
+  padding-bottom: 5px;
+}
+
+.slide-in-down {
+  -webkit-transform: translate3d(0, 100%, 0);
+  transform: translate3d(0, 100%, 0); }
+
+.slide-in-down.ng-enter, .slide-in-down > .ng-enter {
+  -webkit-transition: all cubic-bezier(0.1, 0.7, 0.1, 1) 400ms;
+  transition: all cubic-bezier(0.1, 0.7, 0.1, 1) 400ms; }
+
+.slide-in-down.ng-enter-active, .slide-in-down > .ng-enter-active {
+  -webkit-transform: translate3d(0, -4%, 0);
+  transform: translate3d(0, -4%, 0); }
+
+.slide-in-down.ng-leave, .slide-in-down > .ng-leave {
+  -webkit-transition: all ease-in-out 250ms;
+  transition: all ease-in-out 250ms; }

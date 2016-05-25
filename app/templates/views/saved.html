@@ -1,0 +1,23 @@
+<ion-view ng-controller="SavedController as saved">
+  <ion-header-bar align-title="center" class="bar-positive">
+  <button class="button button-icon icon ion-navicon" menu-toggle="left"></button>
+    <h1 class="title" ng-bind="saved.title"></h1>
+  </ion-header-bar>
+  <ion-content>
+    <div class="loader" ng-if="saved.hotels === false">
+      <ion-spinner></ion-spinner>
+    </div>
+    <div class="list" ng-if="saved.hotels && saved.hotels.length > 0">
+      <a class="item item-thumbnail-left" ui-sref="app.detail({id: hotel.place_id})" ng-repeat="hotel in saved.hotels">
+        <img ng-src="{{hotel.photos[0].photo_reference | fetchphoto}}" ng-if="hotel.photos && hotel.photos.length > 0 && hotel.photos[0].photo_reference">
+        <h2 ng-bind="::hotel.name"></h2>
+        <p ng-if="hotel.rating" ui-rating="{{::hotel.rating}}"></p>
+        <p>{{::hotel.rating | number:0}}-star hotel</p>
+        <p ng-bind="::hotel.vicinity"></p>
+      </a>
+    </div>
+    <div ng-if="saved.hotels && saved.hotels.length < 1" class="label text-center no-record-found">
+      There is no saved hotel.
+    </div>
+  </ion-content>
+</ion-view>
