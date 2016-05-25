@@ -73,7 +73,7 @@ angular.module('HotelReview')
             $log.debug('Loading hotels ' + lat + ' - ' + lng + ' - ' + ctrl.nextPageToken);
             isLoadingInProgress = true;
             GPlace
-              .findNearByHotels(lat, lng, 40000, ctrl.nextPageToken)
+              .findNearByHotels(lat, lng, 600, ctrl.nextPageToken)
               .then(function(data) {
                 if(data && data.hotels && data.hotels.length > 0){
                     originalHotels = originalHotels.concat(data.hotels);
