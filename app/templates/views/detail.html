@@ -21,7 +21,7 @@
       <div class="hotel-info">
         <h4 ng-bind="::detail.hotel.name"></h4>
         <div ng-if="detail.hotel.rating" ui-rating="{{::detail.hotel.rating}}"></div>
-        <p class="review_summary">
+        <p class="review_summary" ng-if="detail.hotel.rating">
           <button ng-click="detail.showReviewSummary($event)" class="button button-clear button-small">review summary</button> 
         </p>
       </div>
@@ -35,15 +35,15 @@
       </ui-gmap-google-map>
       <section class="hotel-address">
         <div class="list">
-          <a class="item item-icon-left" href="#">
+          <a class="item item-icon-left" href="#" ng-if="detail.hotel.vicinity">
             <i class="icon ion-earth"></i>
             {{::detail.hotel.vicinity}}
           </a>
-          <a class="item item-icon-left" ng-href="{{::detail.hotel.website}}" target="_blank">
+          <a class="item item-icon-left" ng-href="{{::detail.hotel.website}}" target="_blank" ng-if="detail.hotel.website">
             <i class="icon ion-email"></i>
             {{::detail.hotel.website | getdomain}}
           </a>
-          <a class="item item-icon-left" href="#">
+          <a class="item item-icon-left" href="#" ng-if="detail.hotel.international_phone_number">
             <i class="icon ion-ios-telephone"></i>
             {{::detail.hotel.international_phone_number}}
           </a>

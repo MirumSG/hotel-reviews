@@ -24,7 +24,7 @@
           <div class="discounted_percentage_background"></div>
           <span class="discounted_percentage_amount" ng-bind="hotel.discount + '%'"></span>
         </div>
-        <p class="review-summary">
+        <p class="review-summary" ng-if="hotel.rating">
           {{hotel.total_review}} reviews
         </p>
         <div class="price-tag" ng-if="hotel.price">
@@ -67,7 +67,7 @@
 
           <div class="item range">
             {{home.filter.minprice}}
-            <input type="range" value="0" min="10" max="450" step="10" ng-model="home.filter.minprice" />
+            <input type="range" value="0" min="0" max="450" step="10" ng-model="home.filter.minprice" />
             450
           </div>
         </div>
