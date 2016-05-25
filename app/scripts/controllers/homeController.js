@@ -127,11 +127,9 @@ angular.module('HotelReview')
                 ctrl.loadHotels();
             });
 
-        ctrl.animation = 'slide-in-up';
-
         $ionicPopover.fromTemplateUrl('filter-popover.html', {
             scope: $scope,
-            animation: ctrl.animation
+            animation: 'slide-in-down'
         }).then(function(popover) {
             $log.debug('Filter popover has opened');
             $log.debug(popover);
@@ -141,7 +139,7 @@ angular.module('HotelReview')
 
         $ionicPopover.fromTemplateUrl('sort-popover.html', {
             scope: $scope,
-            animation: ctrl.animation
+            animation: 'slide-in-down'
         }).then(function(popover) {
             ctrl.sortPopover = popover;
         });
