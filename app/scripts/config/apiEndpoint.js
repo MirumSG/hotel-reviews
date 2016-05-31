@@ -13,14 +13,27 @@
 angular.module('HotelReview')
 
     // development
-    .constant('API_ENDPOINT', {
-        host: 'http://localhost',
-        port: 3000,
-        path: '',
-        needsAuth: false
+    .constant('API_ENDPOINTS', {
+        mhotels:  {
+            host: 'http://terminal2.expedia.com',
+            port:'80',
+            path: '/x/mhotels',
+            needsAuth: false
+            },
+        hotels: {
+            host: 'http://terminal2.expedia.com',
+            port:'80',
+            path: '/x/hotels',
+            needsAuth: false
+            },
+        reviews: {
+            host: 'http://terminal2.expedia.com',
+            port:'80',
+            path: '/x/reviews',
+            needsAuth: false
+            }
     });
-
-
+    
     // live example with HTTP Basic Auth
     /*
     .constant('API_ENDPOINT', {

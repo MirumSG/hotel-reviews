@@ -15,20 +15,49 @@
  *
  */
 angular.module('HotelReview')
-    .factory('ApiService', function($window, $http, API_ENDPOINT) {
+    .factory('ApiService', function($window, $location, $http, $cordovaGeolocation, API_ENDPOINTS) {
 
-        var _api = API_ENDPOINT;
-        var endpoint = _api.port ? (_api.host + ':' + _api.port + _api.path) : (_api.host + _api.path);
+        var _apis = API_ENDPOINTS;
 
-        // activate for basic auth
-        if (_api.needsAuth) {
-            $http.defaults.headers.common.Authorization = 'Basic ' + $window.btoa(_api.username + ':' + _api.password);
+        var _getEndpoint = function(apiType) {
+            var endPoint = $location.protocol() + $location.host() + $location.port() + 'api/v1';
+            if (apiType) {
+                endPoint = _apis[apiType].port ? (_apis[apiType].host + ':' + _apis[apiType].port + _apis[apiType].path) : (_apis[apiType].host + _apis[apiType].path);
+                // activate for basic auth
+                if (_apis[apiType].needsAuth) {
+                    $http.defaults.headers.common.Authorization = 'Basic ' + $window.btoa(_api.username + ':' + _api.password);
+                }
+            }
+            return endPoint;
         }
+
+
+        var _processGetApiRequest = function(searchParams, apiType, endPath) {
+         
+            var _defaultSearchParams = {
+                    apikey: 'L8M6jOAHeDc3h8vUb20Ak0A6pP4mnvGT'                  
+                },
+                _endPoint = _getEndpoint(apiType) + endPath,
+                _params = searchParams ? _.assign(_defaultSearchParams, searchParams) : _defaultSearchParams;
+
+            return $http({
+                    url: _endPoint,
+                    params: _params,
+                    method: 'GET'
+                })
+                .success(function(data) {
+                    console.log('fetched this stuff from server:', data);
+                })
+                .error(function(error) {
+                    console.log('an error occured', error);
+                });
+        }
+
+       
 
         // public api
         return {
-            getEndpoint: function() { return endpoint; }
+            processGetApiRequest: _processGetApiRequest
         };
 
     });
-

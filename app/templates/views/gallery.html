@@ -1,0 +1,36 @@
+<ion-view view-title="Hotel Photo Gallery">
+    <ion-nav-bar align-title="center" class="bar-royal">
+        <ion-nav-back-button class="button-icon ion-arrow-left-c">
+        </ion-nav-back-button>
+    </ion-nav-bar>
+    <ion-content>
+        <div class="loader" ng-if="gallery.photoList.length > 0">
+            <ion-spinner></ion-spinner>
+        </div>
+        <div class="content">
+            <div class="list card" ng-if="gallery.photoList.length > 0"> 
+                <div class="item item-energized item-avatar">
+                    <img ng-src="{{ 'https://images.trvl-media.com'+gallery.selectedHotel.thumbnailUrl}}">
+                    <h2 class="energized"><strong>{{ gallery.selectedHotel.name }}</strong></h2>
+                    <p class="light">{{ gallery.selectedHotel.address +' | '+ gallery.selectedHotel.city}}</p>
+                </div>
+                <div class="item item-body">
+                    <ion-gallery ion-gallery-items="gallery.photoList"></ion-gallery>
+                </div>
+
+                <div class="item tabs tabs-secondary tabs-icon-left">
+                    <a class="tab-item" ng-show="reviewItem.isRecommended == 'YES'" href="#">
+                        <i class="icon ion-thumbsup balanced"></i>
+                        <b> Recommended</b>
+                    </a>
+                    <a class="tab-item" href="#">
+                        <i class="icon ion-share"></i> Share
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </ion-content>
+
+</ion-view>

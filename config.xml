@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="de.tmaximini.HotelReview" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>HotelReview</name>
-  <description>
-        A blank seed project for rapid development of Ionic projects through gulp workflows
+  <description>&#xD;
+        A blank seed project for rapid development of Ionic projects through gulp workflows&#xD;
     </description>
-  <author email="tmaximini@gmail.com" href="http://thomasmaximini.com/">
-      Thomas Maximini
+  <author email="tmaximini@gmail.com" href="http://thomasmaximini.com/">&#xD;
+      Thomas Maximini&#xD;
     </author>
-  <content src="index.html"/>
+  <content src="http://192.168.1.5:8100" original-src="index.html"/>
   <access origin="*"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
