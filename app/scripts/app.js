@@ -10,7 +10,7 @@
  */
 
 
-angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize'])
+angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize', 'ion-gallery'])
 
     .run(function($ionicPlatform) {
 
@@ -19,7 +19,6 @@ angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize']
         });
 
         // add possible global event handlers here
-
     })
 
     .config(function($httpProvider, $stateProvider, $urlRouterProvider) {
@@ -40,7 +39,27 @@ angular.module('HotelReview', ['ionic', 'ngCordova', 'ngResource', 'ngSanitize']
                 views: {
                     'viewContent': {
                         templateUrl: 'templates/views/home.html',
-                        controller: 'HomeController'
+                        controller: 'HomeController as home'
+                    }
+                }
+            })
+            .state('app.review', {
+                url: '/review',
+                cache: true,
+                views: {
+                    'viewContent': {
+                        templateUrl: 'templates/views/review.html',
+                        controller: 'ReviewController as review'
+                    }
+                }
+            })
+            .state('app.gallery', {
+                url: '/gallery',
+                cache: true,
+                views: {
+                    'viewContent': {
+                        templateUrl: 'templates/views/gallery.html',
+                        controller: 'GalleryController as gallery'
                     }
                 }
             })

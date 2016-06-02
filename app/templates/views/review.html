@@ -1,0 +1,55 @@
+<ion-view view-title="All Reviews">
+    <ion-nav-bar align-title="center" class="bar-royal">
+        <ion-nav-back-button class="button-icon ion-arrow-left-c">
+        </ion-nav-back-button>
+    </ion-nav-bar>
+    <ion-content>
+        <div class="loader" ng-if="!review.reviewResponse.reviewCollection.review">
+            <ion-spinner></ion-spinner>
+        </div>
+        <div class="content">
+            <div class="list card">
+                <div class="item item-balanced item-avatar">
+                    <img ng-src="{{ 'https://images.trvl-media.com'+review.selectedHotel.thumbnailUrl}}">
+                    <h2 class="energized"><strong>{{ review.selectedHotel.name }}</strong></h2>
+                    <p class="light">{{ review.selectedHotel.address +' | '+ review.selectedHotel.city}}</p>
+                </div>
+                <div class="item item-body">
+                    <div class="list card" ng-repeat="reviewItem in review.reviewResponse.reviewCollection.review">
+                        <div class="item  item-stable">
+                            <!--<img ng-src="{{ 'https://images.trvl-media.com'+review.selectedHotel.thumbnailUrl}}">-->
+                            <h2 class="positive">{{reviewItem.title}} 
+                                <p> Rating: <i ng-repeat=" rate in review.range(0,reviewItem.ratingOverall)" class="icon ion-star energized"></i> 
+                                </p>  
+                            <p>Date: <strong>{{ reviewItem.reviewSubmissionTime}} </strong> | Name: <strong>{{ reviewItem.userDisplayName ? reviewItem.userDisplayName : reviewItem.userNickname}}</strong></p>
+                        </div>
+
+                        <div class="item item-body">
+                            <p>{{reviewItem.reviewText}}</p>                           
+                        </div>
+
+                        <div class="item tabs tabs-secondary tabs-icon-left">
+                            <a class="tab-item" ng-show="reviewItem.isRecommended == 'YES'" href="#">
+                                <i class="icon ion-thumbsup balanced"></i>
+                                 <b> Recommended
+                            </b>
+                            </a>                            
+                            <a class="tab-item" href="#">
+                                <i class="icon ion-share"></i> Share
+                            </a>
+                        </div>
+
+                    </div>
+           
+                </div>
+
+                <div class="item tabs tabs-secondary tabs-icon-left">
+                   
+                </div>
+
+            </div>
+
+        </div>
+    </ion-content>
+
+</ion-view>
